@@ -1,6 +1,6 @@
 """
 LLM Node implementation.
-Unified node for calling OpenAI, Anthropic, HuggingFace, and local models.
+LLM node powered by DynaRoute.
 """
 
 from typing import Dict, Any, List
@@ -15,8 +15,8 @@ class LLMNode(GenAIBaseNode):
     LLM Node - calls language models with unified interface.
 
     Config:
-        provider: "openai", "anthropic", "huggingface"
-        model: Model name (e.g., "gpt-4", "claude-3-opus")
+        provider: "dynaroute"
+        model: "auto"
         temperature: 0.0-2.0
         maxTokens: Max output tokens
         topP: Nucleus sampling
@@ -41,27 +41,11 @@ class LLMNode(GenAIBaseNode):
 
     node_type = "llm"
 
-    # Default models for each provider
-    DEFAULT_MODELS = {
-        "dynaroute": "auto",
-        "gemini": "gemini-2.5-pro",
-        "openai": "gpt-3.5-turbo",
-        "anthropic": "claude-3-haiku-20240307",
-    }
-
     def _parse_provider_config(self, config: Dict[str, Any]) -> ProviderConfig:
         """Parse LLM config."""
-        provider = config.get("provider", "dynaroute")
-
-        # Auto-select default model if not specified or use default for provider
-        model = config.get("model")
-        # Replace with provider-specific default if model is not set, is "auto", or is the old default
-        if not model or model in ("auto", "gemini-2.5-pro"):
-            model = self.DEFAULT_MODELS.get(provider, "auto")
-
         return ProviderConfig(
-            provider=provider,
-            model=model,
+            provider="dynaroute",
+            model="auto",
             temperature=config.get("temperature", 0.7),
             maxTokens=config.get("maxTokens", 1000),
             topP=config.get("topP", 1.0),

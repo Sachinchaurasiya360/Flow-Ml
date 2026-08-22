@@ -9,7 +9,7 @@ import Footer from "./Footer";
 
 const LandingPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-linear-to-b from-white to-slate-50">
+    <div className="min-h-screen bg-[#F4F6FF]">
       <Navbar />
       <Hero />
       <StatsSection />

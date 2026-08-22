@@ -428,12 +428,7 @@ class DynaRouteProvider(BaseLLMProvider):
 class ProviderFactory:
     """Factory for creating LLM providers."""
 
-    _providers: Dict[str, type[BaseLLMProvider]] = {
-        "dynaroute": DynaRouteProvider,
-        "openai": OpenAIProvider,
-        "anthropic": AnthropicProvider,
-        "gemini": GeminiProvider,
-    }
+    _providers: Dict[str, type[BaseLLMProvider]] = {"dynaroute": DynaRouteProvider}
 
     @classmethod
     def create(cls, provider: str, api_key: Optional[str] = None) -> BaseLLMProvider:

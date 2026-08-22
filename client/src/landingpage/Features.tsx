@@ -80,20 +80,20 @@ const FEATURES = [
 
 const Features: React.FC = () => {
   return (
-    <section id="features" className="py-32 bg-neutral-950">
+    <section id="features" className="bg-white py-28">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
         <motion.div
-          className="max-w-lg mb-20"
+          className="mb-14 max-w-xl"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-[11px] font-medium tracking-widest uppercase text-neutral-600 mb-4">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-amber-700">
             Features
           </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-100 tracking-tight leading-tight">
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-slate-900 lg:text-4xl">
             Everything you need
             <br />
             to understand ML.
@@ -101,7 +101,7 @@ const Features: React.FC = () => {
         </motion.div>
 
         {/* Grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.04] rounded-xl overflow-hidden border border-white/[0.04]">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feat, i) => {
             const Icon = feat.icon;
             return (
@@ -111,15 +111,15 @@ const Features: React.FC = () => {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: i * 0.04 }}
-                className="bg-neutral-950 p-7 group hover:bg-neutral-900/70 transition-colors duration-200"
+                className="group rounded-2xl border border-slate-200 bg-[#F8FAFC] p-7 transition-all duration-200 hover:-translate-y-1 hover:border-amber-300 hover:bg-white hover:shadow-lg hover:shadow-amber-900/5"
               >
-                <div className="w-8 h-8 rounded-lg bg-neutral-800/80 group-hover:bg-neutral-800 flex items-center justify-center mb-5 transition-colors">
-                  <Icon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-200 transition-colors" />
+                <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-xl bg-[#FEF3C7] transition-colors group-hover:bg-[#FDE68A]">
+                  <Icon className="h-4 w-4 text-[#B45309]" />
                 </div>
-                <h3 className="text-sm font-semibold text-neutral-200 mb-2">
+                <h3 className="mb-2 text-sm font-semibold text-slate-900">
                   {feat.title}
                 </h3>
-                <p className="text-[13px] text-neutral-600 leading-relaxed">
+                <p className="text-[13px] leading-relaxed text-slate-600">
                   {feat.desc}
                 </p>
               </motion.div>

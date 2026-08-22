@@ -13,7 +13,7 @@ export const genaiCategory: NodeCategory = {
     {
       type: "llm_node",
       label: "LLM Provider",
-      description: "Configure LLM provider (GPT, Claude, Gemini, DynaRoute)",
+      description: "Configure DynaRoute model routing and parameters",
       category: "genai",
       icon: Bot,
       color: "#8B5CF6",
@@ -22,22 +22,8 @@ export const genaiCategory: NodeCategory = {
         model: "auto", // Set by backend based on provider
         temperature: 0.7,
         maxTokens: 1000,
-        apiKey: "",
       },
       configFields: [
-        {
-          name: "provider",
-          label: "Provider",
-          type: "select",
-          options: [
-            { value: "dynaroute", label: "DynaRoute (Smart Routing)" },
-            { value: "gemini", label: "Google Gemini" },
-            { value: "openai", label: "OpenAI" },
-            { value: "anthropic", label: "Anthropic Claude" },
-          ],
-          defaultValue: "dynaroute",
-          required: true,
-        },
         {
           name: "temperature",
           label: "Temperature",
@@ -55,15 +41,6 @@ export const genaiCategory: NodeCategory = {
           min: 1,
           max: 4000,
           defaultValue: 1000,
-        },
-        {
-          name: "apiKey",
-          label: "API Key",
-          type: "password",
-          conditionalDisplay: { field: "provider", notEquals: "gemini" },
-          description: "Your API key (required for this provider)",
-          placeholder: "Enter your API key...",
-          required: true,
         },
       ],
     },

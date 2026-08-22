@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Sparkles,
   Bot,
@@ -7,7 +6,6 @@ import {
   CheckCircle2,
   Thermometer,
   Hash,
-  KeyRound,
   Trash2,
   Plus,
   type LucideIcon,
@@ -95,38 +93,6 @@ const NODE_THEMES: Record<
   },
 };
 
-// Provider data for LLM node
-const PROVIDERS = [
-  {
-    value: "dynaroute",
-    label: "DynaRoute",
-    desc: "Smart Routing",
-    color: "from-violet-500 to-purple-600",
-    needsKey: true,
-  },
-  {
-    value: "gemini",
-    label: "Gemini",
-    desc: "Google AI",
-    color: "from-blue-500 to-cyan-500",
-    needsKey: false,
-  },
-  {
-    value: "openai",
-    label: "OpenAI",
-    desc: "GPT Models",
-    color: "from-green-500 to-emerald-600",
-    needsKey: true,
-  },
-  {
-    value: "anthropic",
-    label: "Claude",
-    desc: "Anthropic AI",
-    color: "from-orange-500 to-amber-600",
-    needsKey: true,
-  },
-];
-
 // Role presets for System Prompt node
 const ROLE_PRESETS = [
   {
@@ -199,8 +165,6 @@ export function GenAIConfigPanel({
 }: GenAIConfigPanelProps) {
   const theme = NODE_THEMES[nodeType] || NODE_THEMES.llm_node;
   const NodeIcon = theme.icon;
-  const [showApiKey, setShowApiKey] = useState(false);
-
   return (
     <div className="space-y-5">
       {/* Header */}
@@ -259,39 +223,19 @@ export function GenAIConfigPanel({
       {/* ==================== LLM NODE ==================== */}
       {nodeType === "llm_node" && (
         <>
-          {/* Provider Selection */}
+          {/* DynaRoute provider */}
           <div className="rounded-xl border border-slate-200 bg-white p-4">
             <p className="text-sm font-medium text-slate-700 mb-3">
               AI Provider
             </p>
-            <div className="grid grid-cols-2 gap-2">
-              {PROVIDERS.map((p) => (
-                <button
-                  key={p.value}
-                  onClick={() => onFieldChange("provider", p.value)}
-                  className={`flex items-center gap-3 p-3 rounded-lg border-2 transition-all duration-150 ${
-                    (config.provider || "dynaroute") === p.value
-                      ? "border-violet-500 bg-violet-50 shadow-sm"
-                      : "border-slate-200 bg-slate-50 hover:border-slate-300"
-                  }`}
-                >
-                  <div
-                    className={`w-8 h-8 rounded-md bg-linear-to-br ${p.color} flex items-center justify-center`}
-                  >
-                    <Bot className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="text-left">
-                    <span
-                      className={`text-xs font-semibold block ${(config.provider || "dynaroute") === p.value ? "text-violet-700" : "text-slate-600"}`}
-                    >
-                      {p.label}
-                    </span>
-                    <span className="text-[10px] text-slate-400">
-                      {p.desc}
-                    </span>
-                  </div>
-                </button>
-              ))}
+            <div className="flex items-center gap-3 rounded-lg border-2 border-violet-500 bg-violet-50 p-3 shadow-sm">
+              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-linear-to-br from-violet-500 to-purple-600">
+                <Bot className="h-4 w-4 text-white" />
+              </div>
+              <div>
+                <span className="block text-xs font-semibold text-violet-700">DynaRoute</span>
+                <span className="text-[10px] text-slate-500">Server-managed smart routing</span>
+              </div>
             </div>
           </div>
 
@@ -362,46 +306,8 @@ export function GenAIConfigPanel({
             </p>
           </div>
 
-          {/* API Key (conditional - not needed for gemini) */}
-          {config.provider !== "gemini" && (
-            <div className="rounded-xl border border-slate-200 bg-white p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <KeyRound className="w-4 h-4 text-amber-500" />
-                <span className="text-sm font-medium text-slate-700">
-                  API Key
-                </span>
-                <span className="text-red-400 text-xs">*</span>
-              </div>
-              <div className="relative">
-                <input
-                  type={showApiKey ? "text" : "password"}
-                  value={(config.apiKey as string) || ""}
-                  onChange={(e) => onFieldChange("apiKey", e.target.value)}
-                  placeholder="Enter your API key..."
-                  className="w-full px-3 py-2.5 pr-16 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 font-mono"
-                />
-                <button
-                  onClick={() => setShowApiKey(!showApiKey)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-medium text-slate-400 hover:text-slate-600 px-2 py-1 rounded"
-                >
-                  {showApiKey ? "HIDE" : "SHOW"}
-                </button>
-              </div>
-              <p className="text-xs text-slate-400 mt-1.5">
-                Required for{" "}
-                {config.provider === "openai"
-                  ? "OpenAI"
-                  : config.provider === "anthropic"
-                    ? "Anthropic"
-                    : "DynaRoute"}{" "}
-                access
-              </p>
-            </div>
-          )}
-
           {/* Provider Info */}
-          {config.provider === "dynaroute" && (
-            <div className="rounded-xl p-3.5 border border-violet-200 bg-violet-50/50">
+          <div className="rounded-xl p-3.5 border border-violet-200 bg-violet-50/50">
               <p className="text-xs font-semibold text-violet-800">
                 DynaRoute Auto-Routing
               </p>
@@ -409,8 +315,7 @@ export function GenAIConfigPanel({
                 Automatically routes requests to the best available model for
                 optimal results.
               </p>
-            </div>
-          )}
+          </div>
         </>
       )}
 
@@ -811,37 +716,10 @@ export function GenAIConfigPanel({
 
       {/* Ready Status */}
       {nodeType === "llm_node" && (
-        <div
-          className={`rounded-xl p-3.5 border ${
-            config.provider === "gemini" ||
-            (config.apiKey as string)
-              ? "bg-green-50 border-green-200"
-              : "bg-slate-50 border-slate-200"
-          }`}
-        >
+        <div className="rounded-xl border border-green-200 bg-green-50 p-3.5">
           <div className="flex items-center gap-2">
-            <CheckCircle2
-              className={`w-4 h-4 ${
-                config.provider === "gemini" ||
-                (config.apiKey as string)
-                  ? "text-green-600"
-                  : "text-slate-400"
-              }`}
-            />
-            <span
-              className={`text-xs font-semibold ${
-                config.provider === "gemini" ||
-                (config.apiKey as string)
-                  ? "text-green-800"
-                  : "text-slate-500"
-              }`}
-            >
-              {config.provider === "gemini"
-                ? "Ready to use"
-                : (config.apiKey as string)
-                  ? "Ready to use"
-                  : "Enter an API key to continue"}
-            </span>
+            <CheckCircle2 className="h-4 w-4 text-green-600" />
+            <span className="text-xs font-semibold text-green-800">Ready to use DynaRoute</span>
           </div>
         </div>
       )}

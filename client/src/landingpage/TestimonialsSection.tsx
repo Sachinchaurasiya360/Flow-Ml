@@ -24,19 +24,19 @@ const TESTIMONIALS = [
 
 const TestimonialsSection: React.FC = () => {
   return (
-    <section id="testimonials" className="py-32 bg-neutral-950">
+    <section id="testimonials" className="bg-white py-28">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
-          className="max-w-lg mb-20"
+          className="mb-14 max-w-lg"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-[11px] font-medium tracking-widest uppercase text-neutral-600 mb-4">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-amber-700">
             Testimonials
           </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-100 tracking-tight leading-tight">
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-slate-900 lg:text-4xl">
             Trusted by students
             <br />
             and educators alike.
@@ -51,16 +51,16 @@ const TestimonialsSection: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
-              className="bg-neutral-900 border border-white/[0.06] rounded-xl p-7 flex flex-col"
+              className="flex flex-col rounded-2xl border border-slate-200 bg-[#F8FAFC] p-7"
             >
-              <p className="text-[15px] text-neutral-400 leading-relaxed flex-1">
+              <p className="flex-1 text-[15px] leading-relaxed text-slate-600">
                 &ldquo;{t.quote}&rdquo;
               </p>
-              <footer className="mt-6 pt-5 border-t border-white/[0.05]">
-                <p className="text-sm font-semibold text-neutral-200">
+              <footer className="mt-6 border-t border-slate-200 pt-5">
+                <p className="text-sm font-semibold text-slate-900">
                   {t.name}
                 </p>
-                <p className="text-[12px] text-neutral-600 mt-0.5">{t.role}</p>
+                <p className="mt-0.5 text-[12px] text-amber-700">{t.role}</p>
               </footer>
             </motion.blockquote>
           ))}

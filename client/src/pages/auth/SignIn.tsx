@@ -87,6 +87,14 @@ const SignIn: React.FC = () => {
     setError("");
   };
 
+  const fillTestCredentials = () => {
+    setFormData({
+      emailId: "demo@flowml.com",
+      password: "Demo@12345",
+    });
+    setError("");
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -163,6 +171,20 @@ const SignIn: React.FC = () => {
               <p className="text-sm text-red-800 flex-1">{error}</p>
             </motion.div>
           )}
+
+          <div className="flex flex-col gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold text-amber-900">Test credentials</p>
+              <p className="mt-1 text-xs text-amber-800">demo@flowml.com · Demo@12345</p>
+            </div>
+            <button
+              type="button"
+              onClick={fillTestCredentials}
+              className="rounded-lg bg-amber-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-amber-700"
+            >
+              Use test account
+            </button>
+          </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Input */}

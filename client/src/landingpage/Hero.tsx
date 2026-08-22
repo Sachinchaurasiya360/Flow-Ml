@@ -1,178 +1,70 @@
-import React, { useEffect, useRef } from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import React, { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Play } from "lucide-react";
 import { useNavigate } from "react-router";
+import {
+  Background,
+  ReactFlow,
+  useEdgesState,
+  useNodesState,
+  type Edge,
+  type Node,
+} from "@xyflow/react";
+import "@xyflow/react/dist/style.css";
 
-const NODES = [
-  {
-    id: "dataset",
-    label: "Dataset",
-    sub: "iris.csv · 150 rows",
-    dot: "#6b7280",
-    status: "done",
-  },
-  {
-    id: "features",
-    label: "Feature Eng.",
-    sub: "StandardScaler",
-    dot: "#8b5cf6",
-    status: "done",
-  },
-  {
-    id: "model",
-    label: "Linear Reg.",
-    sub: "Fitting… epoch 18/25",
-    dot: "#6366f1",
-    status: "running",
-  },
-  {
-    id: "eval",
-    label: "Evaluate",
-    sub: "R² = 0.89 · MSE 0.042",
-    dot: "#22c55e",
-    status: "pending",
-  },
+const flowNodes: Node[] = [
+  { id: "dataset", position: { x: 20, y: 105 }, data: { label: "Dataset\niris.csv" }, style: { background: "#FFFFFF", border: "1px solid #BFDBFE", borderRadius: 14, color: "#1E3A8A", fontSize: 12, fontWeight: 700, minWidth: 130, padding: "14px 18px", boxShadow: "0 10px 24px rgba(30, 64, 175, 0.10)", whiteSpace: "pre-line" } },
+  { id: "prepare", position: { x: 245, y: 55 }, data: { label: "Prepare\nScale features" }, style: { background: "#FFFBEB", border: "1px solid #FCD34D", borderRadius: 14, color: "#92400E", fontSize: 12, fontWeight: 700, minWidth: 140, padding: "14px 18px", boxShadow: "0 10px 24px rgba(180, 83, 9, 0.10)", whiteSpace: "pre-line" } },
+  { id: "model", position: { x: 245, y: 185 }, data: { label: "Model\nLinear regression" }, style: { background: "#EEF2FF", border: "1px solid #C7D2FE", borderRadius: 14, color: "#3730A3", fontSize: 12, fontWeight: 700, minWidth: 140, padding: "14px 18px", boxShadow: "0 10px 24px rgba(67, 56, 202, 0.10)", whiteSpace: "pre-line" } },
+  { id: "result", position: { x: 490, y: 120 }, data: { label: "Results\nAccuracy 89%" }, style: { background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 14, color: "#065F46", fontSize: 12, fontWeight: 700, minWidth: 135, padding: "14px 18px", boxShadow: "0 10px 24px rgba(5, 150, 105, 0.10)", whiteSpace: "pre-line" } },
 ];
 
-const PipelineViz: React.FC = () => {
-  const lineRef = useRef<SVGLineElement>(null);
+const flowEdges: Edge[] = [
+  { id: "dataset-prepare", source: "dataset", target: "prepare", style: { stroke: "#CBD5E1", strokeWidth: 2 } },
+  { id: "prepare-model", source: "prepare", target: "model", style: { stroke: "#CBD5E1", strokeWidth: 2 } },
+  { id: "model-result", source: "model", target: "result", style: { stroke: "#CBD5E1", strokeWidth: 2 } },
+];
+
+const FlowPreview: React.FC = () => {
+  const [nodes, , onNodesChange] = useNodesState(flowNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(flowEdges);
+  const [isRunning, setIsRunning] = useState(false);
+
+  const runPipeline = () => {
+    setIsRunning(true);
+    setEdges((currentEdges) => currentEdges.map((edge) => ({
+      ...edge,
+      animated: true,
+      style: { stroke: "#D97706", strokeWidth: 2.5 },
+    })));
+    window.setTimeout(() => {
+      setIsRunning(false);
+      setEdges(flowEdges);
+    }, 2200);
+  };
 
   return (
-    <div className="relative w-full max-w-sm mx-auto select-none">
-      {/* Browser chrome */}
-      <div className="rounded-xl overflow-hidden border border-white/[0.08] bg-neutral-900">
-        {/* Title bar */}
-        <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/[0.06] bg-neutral-900/80">
-          <span className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-          <span className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-          <span className="w-2.5 h-2.5 rounded-full bg-neutral-700" />
-          <span className="ml-3 text-[11px] text-neutral-600 font-mono">
-            Pipeline — Linear Regression
-          </span>
-        </div>
-
-        {/* Pipeline canvas */}
-        <div className="p-5 space-y-1.5 bg-[#0d0d0d]">
-          {NODES.map((node, i) => (
-            <React.Fragment key={node.id}>
-              <motion.div
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: 0.3 + i * 0.15 }}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-colors ${
-                  node.status === "running"
-                    ? "bg-indigo-500/[0.06] border-indigo-500/20"
-                    : node.status === "done"
-                      ? "bg-neutral-800/60 border-white/[0.06]"
-                      : "bg-neutral-900 border-white/[0.04] opacity-50"
-                }`}
-              >
-                <span
-                  className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{
-                    backgroundColor:
-                      node.status === "pending" ? "#374151" : node.dot,
-                    boxShadow:
-                      node.status === "running"
-                        ? `0 0 8px ${node.dot}80`
-                        : "none",
-                  }}
-                />
-                <div className="flex-1 min-w-0">
-                  <p className="text-[12px] font-medium text-neutral-200 leading-none mb-0.5">
-                    {node.label}
-                  </p>
-                  <p className="text-[10px] text-neutral-600 truncate">
-                    {node.sub}
-                  </p>
-                </div>
-                {node.status === "done" && (
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    className="flex-shrink-0"
-                  >
-                    <path
-                      d="M2.5 6l2.5 2.5 4.5-5"
-                      stroke="#22c55e"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-                {node.status === "running" && (
-                  <motion.div
-                    className="w-3 h-3 rounded-full border border-indigo-400 border-t-transparent flex-shrink-0"
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 0.8,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  />
-                )}
-                {i < NODES.length - 1 && (
-                  <svg
-                    className="absolute left-[25px] w-px overflow-visible"
-                    style={{ top: `${56 + i * 52}px`, height: "52px" }}
-                    aria-hidden
-                  >
-                    <line
-                      ref={i === 0 ? lineRef : undefined}
-                      x1="0"
-                      y1="0"
-                      x2="0"
-                      y2="52"
-                      stroke="#1f2937"
-                      strokeWidth="1"
-                      strokeDasharray="3 3"
-                    />
-                  </svg>
-                )}
-              </motion.div>
-
-              {/* Connector line */}
-              {i < NODES.length - 1 && (
-                <motion.div
-                  initial={{ scaleY: 0 }}
-                  animate={{ scaleY: 1 }}
-                  transition={{ duration: 0.2, delay: 0.5 + i * 0.15 }}
-                  className="mx-auto w-px h-3 bg-neutral-800 origin-top"
-                  style={{ marginLeft: "20px" }}
-                />
-              )}
-            </React.Fragment>
-          ))}
-
-          {/* Metrics output */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
-            className="mt-3 p-3 rounded-lg bg-neutral-800/50 border border-white/[0.04]"
-          >
-            <p className="text-[10px] text-neutral-600 uppercase tracking-wider mb-2">
-              Output metrics
-            </p>
-            <div className="grid grid-cols-3 gap-2">
-              {[
-                { key: "R²", val: "0.89" },
-                { key: "MSE", val: "0.042" },
-                { key: "MAE", val: "0.156" },
-              ].map((m) => (
-                <div key={m.key} className="text-center">
-                  <p className="text-[10px] text-neutral-500">{m.key}</p>
-                  <p className="text-[13px] font-semibold text-neutral-200">
-                    {m.val}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
+    <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white text-left shadow-2xl shadow-slate-900/10">
+      <div className="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3 sm:px-5">
+        <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
+        <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
+        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
+        <span className="ml-2 text-[11px] font-semibold text-slate-500">Flow ML — workspace</span>
+        <span className="ml-auto hidden text-[10px] font-medium text-amber-700 sm:block">Drag a node to try it</span>
+        <button
+          type="button"
+          onClick={runPipeline}
+          className="ml-auto inline-flex items-center gap-1.5 rounded-md bg-[#D97706] px-3 py-1.5 text-[11px] font-semibold text-white transition hover:bg-[#B45309] disabled:cursor-wait disabled:opacity-70"
+          disabled={isRunning}
+        >
+          <Play className="h-3 w-3 fill-current" />
+          {isRunning ? "Running" : "Run"}
+        </button>
+      </div>
+      <div className="h-[300px] bg-[#F8FAFC] sm:h-[390px]">
+        <ReactFlow nodes={nodes} edges={edges} onNodesChange={onNodesChange} onEdgesChange={onEdgesChange} nodesConnectable={false} fitView fitViewOptions={{ padding: 0.2 }} proOptions={{ hideAttribution: true }}>
+          <Background gap={20} size={1} color="#CBD5E1" />
+        </ReactFlow>
       </div>
     </div>
   );
@@ -180,128 +72,125 @@ const PipelineViz: React.FC = () => {
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
+  const headlineWords = ["visible.", "intuitive.", "practical.", "clear."];
+  const [headlineWordIndex, setHeadlineWordIndex] = useState(0);
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      setHeadlineWordIndex((current) => (current + 1) % headlineWords.length);
+    }, 2200);
+
+    return () => window.clearInterval(intervalId);
+  }, [headlineWords.length]);
 
   return (
-    <section className="relative min-h-screen bg-neutral-950 overflow-hidden flex flex-col">
-      {/* Subtle dot grid */}
-      <div
-        className="absolute inset-0 opacity-[0.35]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, #333 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-        }}
+    <section className="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-[#F4F6FF] px-6 pb-20 pt-24 text-center lg:px-8">
+      <motion.span
+        aria-hidden
+        className="absolute left-[12%] top-[26%] h-3 w-3 rounded-full bg-[#FBBF24]"
+        animate={{ y: [0, -18, 0], opacity: [0.4, 1, 0.4] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
       />
-      {/* Soft vignette */}
-      <div className="absolute inset-0 bg-radial-gradient pointer-events-none" />
-
-      <div className="relative flex-1 max-w-7xl mx-auto px-6 lg:px-8 w-full">
-        <div className="min-h-screen flex items-center">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center py-28 w-full">
-            {/* Left — copy */}
-            <div className="space-y-8">
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-              >
-                <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-widest uppercase text-neutral-500 border border-white/[0.08] px-3 py-1.5 rounded-full">
-                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-                  Visual Machine Learning Platform
-                </span>
-              </motion.div>
-
-              <motion.h1
-                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-neutral-100 tracking-tight leading-[1.04]"
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-              >
-                Machine learning
-                <br />
-                <span className="text-neutral-500">you can see.</span>
-              </motion.h1>
-
-              <motion.p
-                className="text-base lg:text-lg text-neutral-500 max-w-md leading-relaxed"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.25 }}
-              >
-                Build and understand ML pipelines without writing a single line
-                of code. Connect nodes, run experiments, and watch algorithms
-                work in real time.
-              </motion.p>
-
-              <motion.div
-                className="flex flex-wrap gap-3 pt-1"
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.35 }}
-              >
-                <button
-                  onClick={() => navigate("/signup")}
-                  className="group inline-flex items-center gap-2 bg-neutral-100 text-neutral-950 hover:bg-white font-medium text-sm px-5 py-2.5 rounded-lg transition-colors"
-                >
-                  Start learning free
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </button>
-                <a
-                  href="#workflow"
-                  className="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-neutral-200 border border-white/[0.08] hover:border-white/20 px-5 py-2.5 rounded-lg transition-colors"
-                >
-                  See how it works
-                </a>
-              </motion.div>
-
-              <motion.div
-                className="flex items-center gap-6 pt-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-              >
-                {[
-                  { value: "18+", label: "Algorithms" },
-                  { value: "4k+", label: "Students" },
-                  { value: "Free", label: "To start" },
-                ].map((stat) => (
-                  <div key={stat.label}>
-                    <p className="text-sm font-semibold text-neutral-100">
-                      {stat.value}
-                    </p>
-                    <p className="text-[11px] text-neutral-600">{stat.label}</p>
-                  </div>
-                ))}
-              </motion.div>
-            </div>
-
-            {/* Right — pipeline viz */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="hidden lg:block"
-            >
-              <PipelineViz />
-            </motion.div>
-          </div>
-        </div>
-      </div>
-
-      {/* Scroll hint */}
+      <motion.span
+        aria-hidden
+        className="absolute bottom-[25%] right-[14%] h-5 w-5 rounded-full border border-[#FBBF24]"
+        animate={{ y: [0, 20, 0], rotate: [0, 90, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+      />
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 1.5 }}
-      >
-        <motion.div
-          animate={{ y: [0, 4, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
+        className="absolute left-[9%] top-[58%] h-14 w-14 border border-[#FBBF24]/70"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+      />
+
+      <div className="relative mx-auto w-full max-w-6xl">
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65 }}
+          className="mx-auto mt-10 max-w-4xl font-serif text-5xl font-bold leading-[0.98] tracking-tight text-slate-900 sm:mt-14 sm:text-6xl lg:text-7xl"
+          style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
         >
-          <ChevronDown className="w-4 h-4 text-neutral-700" />
+          Machine learning, made{" "}
+          <span className="inline-block text-[#D97706]">
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={headlineWords[headlineWordIndex]}
+                initial={{ opacity: 0, y: 18, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -18, filter: "blur(4px)" }}
+                transition={{ duration: 0.32, ease: "easeOut" }}
+                className="inline-block"
+              >
+                {headlineWords[headlineWordIndex]}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.12 }}
+          className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-slate-600 sm:text-lg"
+        >
+          Build, run, and understand machine learning pipelines without writing code. Every connection makes the idea clearer.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.22 }}
+          className="mt-9 flex flex-wrap justify-center gap-3"
+        >
+          <button
+            onClick={() => navigate("/signin")}
+            className="group inline-flex items-center gap-2 rounded-lg bg-[#D97706] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#B45309]"
+          >
+            Start learning free
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </button>
+          <a
+            href="#workflow"
+            className="inline-flex items-center gap-2 rounded-lg border border-[#FCD34D] bg-white px-5 py-3 text-sm font-semibold text-[#92400E] transition hover:bg-[#FFFBEB]"
+          >
+            See how it works
+          </a>
         </motion.div>
-      </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.35 }}
+          className="mx-auto mt-5 max-w-2xl text-xs leading-relaxed text-slate-500"
+        >
+          Flow ML is currently in ideation mode and available as a beta for testing and feedback. A more complete, industry-ready version is launching soon.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mx-auto mt-12 grid max-w-xl grid-cols-3 divide-x divide-[#FDE68A] rounded-xl border border-[#FDE68A] bg-white px-3 py-4 shadow-sm"
+        >
+          {[{ value: "18+", label: "Algorithms" }, { value: "4k+", label: "Students" }, { value: "Free", label: "To start" }].map((stat) => (
+            <div key={stat.label} className="px-2">
+              <p className="text-xl font-bold text-slate-900 sm:text-2xl">{stat.value}</p>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500 sm:text-[11px]">{stat.label}</p>
+            </div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: 0.52 }}
+          className="mx-auto mt-7 max-w-5xl"
+        >
+          <FlowPreview />
+        </motion.div>
+      </div>
     </section>
   );
 };

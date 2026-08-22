@@ -126,11 +126,8 @@ class Settings(BaseSettings):
     # Redis URL for Celery
     REDIS_URL: str = "redis://localhost:6379/0"
 
-    # GenAI API Keys (Optional - for LLM providers)
+    # GenAI (DynaRoute is the only supported provider)
     DYNAROUTE_API_KEY: Optional[str] = None
-    GEMINI_API_KEY: Optional[str] = None
-    OPENAI_API_KEY: Optional[str] = None
-    ANTHROPIC_API_KEY: Optional[str] = None
     HUGGINGFACE_API_KEY: Optional[str] = None
 
     model_config = SettingsConfigDict(

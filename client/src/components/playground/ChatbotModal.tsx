@@ -95,8 +95,7 @@ export const ChatbotModal = ({ nodeId, onClose }: ChatbotModalProps) => {
 
   const llmNode = getConnectedLLMNode();
   const hasLLMConnection = !!llmNode;
-  const provider = llmNode?.data?.config?.provider || "gemini";
-  const apiKey = llmNode?.data?.config?.apiKey || "";
+  const provider = "DynaRoute";
   const systemPrompt = buildSystemPrompt();
 
   // Get examples from connected node
@@ -117,11 +116,6 @@ export const ChatbotModal = ({ nodeId, onClose }: ChatbotModalProps) => {
 
   const examples = getExamples();
 
-  // Check if API key is required and missing
-  const requiresApiKey = provider !== "gemini";
-  const hasApiKey = apiKey.trim().length > 0;
-  const isApiKeyMissing = requiresApiKey && !hasApiKey;
-
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -136,17 +130,6 @@ export const ChatbotModal = ({ nodeId, onClose }: ChatbotModalProps) => {
 
   const handleSendMessage = async () => {
     if (!inputMessage.trim() || !hasLLMConnection) return;
-
-    // Check if API key is required but missing
-    if (isApiKeyMissing) {
-      const errorMessage: Message = {
-        role: "assistant",
-        content: `Error: API key required for ${provider}. Please configure your API key in the LLM Provider node settings.`,
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-      return;
-    }
 
     const userMessage: Message = {
       role: "user",
@@ -180,8 +163,6 @@ export const ChatbotModal = ({ nodeId, onClose }: ChatbotModalProps) => {
         credentials: "include", // Include cookies for authentication
         body: JSON.stringify({
           message: currentMessage,
-          provider: provider,
-          ...(apiKey && { apiKey: apiKey }), // Include apiKey only if provided
           ...(systemPrompt && { systemPrompt: systemPrompt }), // Include system prompt if connected
           ...(examples && { examples: examples }), // Include examples if connected
         }),
@@ -330,28 +311,12 @@ export const ChatbotModal = ({ nodeId, onClose }: ChatbotModalProps) => {
           )}
 
           {/* Provider Info */}
-          {hasLLMConnection && !isApiKeyMissing && (
+          {hasLLMConnection && (
             <div className="mx-6 mt-4 px-4 py-2 bg-blue-900/20 border border-blue-700 rounded-lg">
               <p className="text-xs text-blue-300">
                 Using provider:{" "}
                 <span className="font-semibold">{provider}</span>
               </p>
-            </div>
-          )}
-
-          {/* Warning if API key is missing */}
-          {hasLLMConnection && isApiKeyMissing && (
-            <div className="mx-6 mt-4 p-4 bg-red-900/20 border border-red-700 rounded-lg flex items-start gap-3">
-              <AlertTriangle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm font-semibold text-red-200">
-                  API Key Required
-                </p>
-                <p className="text-xs text-red-300 mt-1">
-                  Provider "{provider}" requires an API key. Please configure
-                  your API key in the LLM Provider node settings.
-                </p>
-              </div>
             </div>
           )}
 
@@ -365,9 +330,7 @@ export const ChatbotModal = ({ nodeId, onClose }: ChatbotModalProps) => {
                   <p className="text-xs mt-1">
                     {!hasLLMConnection
                       ? "Connect an LLM Provider node first"
-                      : isApiKeyMissing
-                        ? `API key required for ${provider}`
-                        : "Start a conversation by typing a message below"}
+                    : "Start a conversation by typing a message below"}
                   </p>
                 </div>
               </div>
@@ -423,13 +386,11 @@ export const ChatbotModal = ({ nodeId, onClose }: ChatbotModalProps) => {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                disabled={!hasLLMConnection || isApiKeyMissing || isLoading}
+                disabled={!hasLLMConnection || isLoading}
                 placeholder={
                   !hasLLMConnection
                     ? "Connect an LLM Provider node first..."
-                    : isApiKeyMissing
-                      ? `API key required for ${provider}. Please configure it in the LLM Provider node.`
-                      : "Type your message... (Press Enter to send, Shift+Enter for new line)"
+                    : "Type your message... (Press Enter to send, Shift+Enter for new line)"
                 }
                 className="flex-1 px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed resize-none"
                 rows={2}
@@ -438,7 +399,6 @@ export const ChatbotModal = ({ nodeId, onClose }: ChatbotModalProps) => {
                 onClick={handleSendMessage}
                 disabled={
                   !hasLLMConnection ||
-                  isApiKeyMissing ||
                   isLoading ||
                   !inputMessage.trim()
                 }

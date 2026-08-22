@@ -12,9 +12,9 @@ const GenAISection: React.FC = () => {
     },
     {
       icon: Bot,
-      title: "GPT Integration",
+      title: "DynaRoute AI",
       description:
-        "Leverage GPT models for intelligent data analysis, and automated insights generation.",
+        "Use DynaRoute smart routing for intelligent analysis and helpful explanations.",
     },
     {
       icon: Mail,
@@ -45,36 +45,22 @@ const GenAISection: React.FC = () => {
   return (
     <section
       id="genai"
-      className="relative py-32 px-6 lg:px-8 bg-white overflow-hidden"
+      className="relative overflow-hidden bg-[#F4F6FF] px-6 py-28 lg:px-8"
     >
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40" />
-      </div>
-
       <div className="relative max-w-7xl mx-auto">
         <motion.div
-          className="text-center space-y-4 mb-16"
+          className="mb-14 space-y-4 text-center"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
         >
-          {/* Badge */}
-          <div className="flex justify-center mb-4">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-full">
-              <Sparkles className="w-4 h-4 text-emerald-600" />
-              <span className="text-sm font-medium text-slate-700">
-                Automation Suite
-              </span>
-            </div>
-          </div>
-
-          <h2 className="text-4xl lg:text-5xl font-bold bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">
-            Powerful Automation Built-In
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-amber-700">Automation suite</p>
+          <h2 className="text-4xl font-bold tracking-tight text-slate-900 lg:text-5xl">
+            Powerful automation, built in.
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto font-light">
-            Schedule workflows, integrate with GPT, send automated emails, and
+          <p className="mx-auto max-w-3xl text-lg text-slate-600">
+            Schedule workflows, use DynaRoute AI, send automated emails, and
             connect to any platform. Production-ready automation without the
             complexity.
           </p>
@@ -86,7 +72,7 @@ const GenAISection: React.FC = () => {
             return (
               <motion.div
                 key={index}
-                className="group relative bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-2xl p-8 hover:bg-white transition-all duration-300 hover:shadow-xl hover:shadow-slate-900/10 ring-1 ring-slate-900/5"
+                className="group relative rounded-2xl border border-slate-200 bg-white p-8 transition-all duration-300 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl hover:shadow-amber-900/5"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
@@ -97,12 +83,12 @@ const GenAISection: React.FC = () => {
                 }}
               >
                 {/* Step number */}
-                <span className="absolute top-4 right-4 text-xs font-bold text-slate-200">
+                <span className="absolute right-4 top-4 text-xs font-bold text-slate-300">
                   {String(index + 1).padStart(2, "0")}
                 </span>
 
-                <div className="w-14 h-14 bg-linear-to-br from-slate-900 to-slate-700 rounded-xl flex items-center justify-center mb-6 shadow-lg shadow-slate-900/25 group-hover:shadow-xl group-hover:shadow-slate-900/30 transition-all">
-                  <Icon className="w-7 h-7 text-white" />
+                <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-[#FEF3C7] transition-colors group-hover:bg-[#FDE68A]">
+                  <Icon className="h-6 w-6 text-[#B45309]" />
                 </div>
                 <h3 className="text-lg font-semibold text-slate-900 mb-3">
                   {feature.title}

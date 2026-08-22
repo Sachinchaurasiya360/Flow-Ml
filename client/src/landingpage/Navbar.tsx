@@ -34,8 +34,12 @@ const Navbar: React.FC<NavbarProps> = ({ variant = "landing" }) => {
         transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
         className={`fixed top-0 inset-x-0 z-50 h-14 transition-all duration-300 ${
           scrolled
-            ? "bg-neutral-950/92 backdrop-blur-md border-b border-white/[0.06]"
-            : "bg-transparent"
+            ? variant === "landing"
+              ? "bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm shadow-slate-900/5"
+              : "bg-neutral-950/92 backdrop-blur-md border-b border-white/[0.06]"
+            : variant === "landing"
+              ? "bg-[#F4F6FF]/80 backdrop-blur-md border-b border-slate-200/70"
+              : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-8 h-full flex items-center justify-between">
@@ -62,12 +66,12 @@ const Navbar: React.FC<NavbarProps> = ({ variant = "landing" }) => {
                 />
               </svg>
             </div>
-            <span className="text-[13px] font-semibold text-neutral-100 tracking-tight">
+            <span className={`text-[13px] font-semibold tracking-tight ${variant === "landing" ? "text-slate-900" : "text-neutral-100"}`}>
               Flow ML
             </span>
             {variant === "landing" && (
-              <span className="rounded-full border border-indigo-400/20 bg-indigo-400/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-indigo-300">
-                Beta mode
+              <span className="border-l border-slate-300 pl-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-700">
+                Beta version
               </span>
             )}
           </button>
@@ -78,7 +82,7 @@ const Navbar: React.FC<NavbarProps> = ({ variant = "landing" }) => {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors duration-200"
+                  className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors duration-200"
                 >
                   {link.label}
                 </a>
@@ -91,19 +95,19 @@ const Navbar: React.FC<NavbarProps> = ({ variant = "landing" }) => {
               <>
                 <button
                   onClick={() => navigate("/signin")}
-                  className="hidden md:block text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors"
+                  className="hidden md:block text-[13px] text-slate-500 hover:text-slate-900 transition-colors"
                 >
                   Sign in
                 </button>
                 <button
                   onClick={() => navigate("/signup")}
-                  className="text-[13px] font-medium bg-neutral-100 text-neutral-950 hover:bg-white transition-colors px-3.5 py-1.5 rounded-md"
+                  className="text-[13px] font-medium bg-[#D97706] text-white hover:bg-[#B45309] transition-colors px-3.5 py-1.5 rounded-md"
                 >
                   Start free
                 </button>
                 <button
                   onClick={() => setMobileOpen(true)}
-                  className="md:hidden text-neutral-400 p-1"
+                  className="md:hidden text-slate-500 p-1"
                   aria-label="Open menu"
                 >
                   <Menu className="w-5 h-5" />

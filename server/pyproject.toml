@@ -33,10 +33,6 @@ dependencies = [
     # Cloud Storage (Required)
     "boto3>=1.34.0",
     # GenAI - Core Only (Required for chatbot)
-    "openai>=2.15.0",
-    "anthropic>=0.76.0",
-    "google-generativeai>=0.8.6",
-    "google-genai>=1.0.0",
     "dynaroute-client>=0.1.0",
     # Utilities (Required)
     "loguru>=0.7.0",
