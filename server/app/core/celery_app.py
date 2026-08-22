@@ -6,7 +6,7 @@ from celery import Celery
 from app.core.config import settings
 
 # Create Celery app
-celery_app = Celery("visual_ml", broker=settings.REDIS_URL, backend=settings.REDIS_URL)
+celery_app = Celery("flow_ml", broker=settings.REDIS_URL, backend=settings.REDIS_URL)
 
 # Configure Celery
 celery_app.conf.update(

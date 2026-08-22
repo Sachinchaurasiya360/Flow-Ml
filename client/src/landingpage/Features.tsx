@@ -1,245 +1,130 @@
-import React, { useState, useEffect, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Workflow, Sparkles, Zap } from "lucide-react";
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  GitBranch,
+  Zap,
+  BarChart2,
+  Database,
+  Sliders,
+  FlaskConical,
+  Share2,
+  Eye,
+  Layers,
+  History,
+  Download,
+  BookOpen,
+} from "lucide-react";
+
+const FEATURES = [
+  {
+    icon: GitBranch,
+    title: "Visual Pipeline Builder",
+    desc: "Connect nodes to build ML workflows. No boilerplate, just the logic.",
+  },
+  {
+    icon: Zap,
+    title: "Real-time Execution",
+    desc: "Run your pipeline and watch results appear as each node completes.",
+  },
+  {
+    icon: Layers,
+    title: "Neural Network Playground",
+    desc: "Configure layers, activations, and neurons. See forward propagation live.",
+  },
+  {
+    icon: Eye,
+    title: "Algorithm Visualizer",
+    desc: "Understand decision boundaries, cluster centroids, and tree splits.",
+  },
+  {
+    icon: BarChart2,
+    title: "Live Metrics",
+    desc: "Loss curves, accuracy, R², confusion matrix — updated every epoch.",
+  },
+  {
+    icon: Database,
+    title: "Dataset Explorer",
+    desc: "Load CSVs, inspect distributions, and preview transformations inline.",
+  },
+  {
+    icon: Sliders,
+    title: "Feature Engineering",
+    desc: "Scale, encode, reduce, and select features with visual controls.",
+  },
+  {
+    icon: FlaskConical,
+    title: "Model Comparison",
+    desc: "Run multiple models side-by-side and compare their output metrics.",
+  },
+  {
+    icon: History,
+    title: "Experiment History",
+    desc: "Every run is saved. Go back to any experiment and re-run it.",
+  },
+  {
+    icon: Download,
+    title: "Export Projects",
+    desc: "Download your pipeline as Python code or a serialized model file.",
+  },
+  {
+    icon: Share2,
+    title: "Share Pipelines",
+    desc: "Generate a link so anyone can view and run your pipeline in the browser.",
+  },
+  {
+    icon: BookOpen,
+    title: "Interactive Learning",
+    desc: "Built-in explanations walk you through what each node does and why.",
+  },
+];
 
 const Features: React.FC = () => {
-  const [activeSection, setActiveSection] = useState(0);
-  const sectionRefs = [
-    useRef<HTMLDivElement>(null),
-    useRef<HTMLDivElement>(null),
-    useRef<HTMLDivElement>(null),
-  ];
-
-  const features = [
-    {
-      id: 0,
-      icon: Workflow,
-      badge: "Visual Builder",
-      title: "Design ML Workflows Visually",
-      description:
-        "Build complex machine learning pipelines with an intuitive drag-and-drop interface. No coding required. Connect nodes, configure parameters, and watch your models come to life in real-time.",
-      highlights: [
-        "Drag-and-drop interface",
-        "Real-time validation",
-        "Auto-save & version control",
-        "Pre-built templates",
-      ],
-      gradient: "from-blue-500/20 to-violet-500/20",
-    },
-    {
-      id: 1,
-      icon: Sparkles,
-      badge: "GenAI Powered",
-      title: "AI Assistant That Understands ML",
-      description:
-        "Get intelligent suggestions for node configurations, optimal hyperparameters, and architecture recommendations. Our GenAI engine learns from your data and guides you to better models faster.",
-      highlights: [
-        "Smart node suggestions",
-        "Hyperparameter optimization",
-        "Architecture recommendations",
-        "Automated code generation",
-      ],
-      gradient: "from-violet-500/20 to-purple-500/20",
-    },
-    {
-      id: 2,
-      icon: Zap,
-      badge: "Production Ready",
-      title: "Deploy With One Click",
-      description:
-        "Transform your ML pipelines into production-ready APIs instantly. Auto-generate documentation, monitoring dashboards, and scalable infrastructure. From prototype to production in minutes.",
-      highlights: ["One-click deployment", "Built-in monitoring"],
-      gradient: "from-purple-500/20 to-pink-500/20",
-    },
-  ];
-
-  useEffect(() => {
-    const observers = sectionRefs.map((ref, index) => {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveSection(index);
-            }
-          });
-        },
-        {
-          threshold: 0.5,
-          rootMargin: "-20% 0px -20% 0px",
-        },
-      );
-
-      if (ref.current) {
-        observer.observe(ref.current);
-      }
-
-      return observer;
-    });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
-  }, []);
-
-  const activeFeature = features[activeSection];
-
   return (
-    <section id="features" className="relative bg-slate-50">
-      {/* Anchor for "How It Works" nav link */}
-      <div id="how-it-works" className="absolute -top-20" />
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-40" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-32">
-        {/* Section Header */}
+    <section id="features" className="py-32 bg-neutral-950">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        {/* Header */}
         <motion.div
-          className="text-center space-y-4 mb-20"
-          initial={{ opacity: 0, y: 30 }}
+          className="max-w-lg mb-20"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl lg:text-5xl font-bold bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">
-            Everything you need to ship ML products
-          </h2>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto font-light">
-            From design to deployment, Visual ML provides the complete toolkit
+          <p className="text-[11px] font-medium tracking-widest uppercase text-neutral-600 mb-4">
+            Features
           </p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-100 tracking-tight leading-tight">
+            Everything you need
+            <br />
+            to understand ML.
+          </h2>
         </motion.div>
 
-        {/* Sticky Scroll Section */}
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Left Side - Sticky Content */}
-          <div
-            style={{ position: "sticky", top: "6rem", alignSelf: "flex-start" }}
-            className="hidden lg:block space-y-8"
-          >
-            <AnimatePresence mode="wait">
+        {/* Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-white/[0.04] rounded-xl overflow-hidden border border-white/[0.04]">
+          {FEATURES.map((feat, i) => {
+            const Icon = feat.icon;
+            return (
               <motion.div
-                key={activeSection}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-                className="space-y-6"
+                key={feat.title}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.04 }}
+                className="bg-neutral-950 p-7 group hover:bg-neutral-900/70 transition-colors duration-200"
               >
-                {/* Badge */}
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-full">
-                  <div
-                    className={`w-2 h-2 rounded-full bg-linear-to-r ${activeFeature.gradient.replace("/20", "")}`}
-                  />
-                  <span className="text-sm font-medium text-slate-700">
-                    {activeFeature.badge}
-                  </span>
+                <div className="w-8 h-8 rounded-lg bg-neutral-800/80 group-hover:bg-neutral-800 flex items-center justify-center mb-5 transition-colors">
+                  <Icon className="w-4 h-4 text-neutral-400 group-hover:text-neutral-200 transition-colors" />
                 </div>
-
-                {/* Title */}
-                <h3 className="text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
-                  {activeFeature.title}
+                <h3 className="text-sm font-semibold text-neutral-200 mb-2">
+                  {feat.title}
                 </h3>
-
-                {/* Description */}
-                <p className="text-lg text-slate-600 leading-relaxed">
-                  {activeFeature.description}
+                <p className="text-[13px] text-neutral-600 leading-relaxed">
+                  {feat.desc}
                 </p>
-
-                {/* Highlights */}
-                <div className="space-y-3">
-                  {activeFeature.highlights.map((highlight, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.1 }}
-                      className="flex items-center gap-3"
-                    >
-                      <div className="w-6 h-6 rounded-lg bg-linear-to-br from-slate-900 to-slate-700 flex items-center justify-center flex-shrink-0">
-                        <svg
-                          className="w-4 h-4 text-white"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      </div>
-                      <span className="text-slate-700 font-medium">
-                        {highlight}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
               </motion.div>
-            </AnimatePresence>
-          </div>
-
-          {/* Right Side - Scrollable Sections */}
-          <div className="space-y-16 lg:space-y-96 lg:col-start-2">
-            {features.map((feature, index) => (
-              <div
-                key={feature.id}
-                ref={sectionRefs[index]}
-                className="min-h-[400px] flex items-center"
-              >
-                <motion.div
-                  initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6 }}
-                  className={`p-8 rounded-3xl border-2 transition-all duration-500 ${
-                    activeSection === index
-                      ? "bg-white border-slate-900 shadow-2xl shadow-slate-900/10"
-                      : "bg-white/40 border-slate-200/60 shadow-lg"
-                  }`}
-                >
-                  <div className="flex items-start gap-4 mb-4">
-                    <div
-                      className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${
-                        activeSection === index
-                          ? "bg-linear-to-br from-slate-900 to-slate-700 shadow-lg shadow-slate-900/25"
-                          : "bg-slate-100"
-                      }`}
-                    >
-                      {React.createElement(feature.icon, {
-                        className: `w-6 h-6 transition-colors duration-500 ${
-                          activeSection === index
-                            ? "text-white"
-                            : "text-slate-400"
-                        }`,
-                      })}
-                    </div>
-                    <div className="flex-1">
-                      <h4
-                        className={`text-2xl font-bold mb-2 transition-colors duration-500 ${
-                          activeSection === index
-                            ? "text-slate-900"
-                            : "text-slate-400"
-                        }`}
-                      >
-                        {feature.title}
-                      </h4>
-                      <p
-                        className={`text-base leading-relaxed transition-colors duration-500 ${
-                          activeSection === index
-                            ? "text-slate-600"
-                            : "text-slate-400"
-                        }`}
-                      >
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>

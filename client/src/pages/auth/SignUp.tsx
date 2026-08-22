@@ -477,7 +477,7 @@ const SignUp: React.FC = () => {
                 <span className="text-sm text-slate-600 leading-tight">
                   I agree to the{" "}
                   <a
-                    href="https://vizuara.ai/terms"
+                    href="#terms"
                     className="text-slate-900 font-medium hover:underline"
                     onClick={(e) => e.stopPropagation()}
                   >
@@ -485,7 +485,7 @@ const SignUp: React.FC = () => {
                   </a>{" "}
                   and{" "}
                   <a
-                    href="https://vizuara.ai/privacy"
+                    href="#privacy"
                     className="text-slate-900 font-medium hover:underline"
                     onClick={(e) => e.stopPropagation()}
                   >

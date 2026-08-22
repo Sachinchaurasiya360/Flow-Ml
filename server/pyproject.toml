@@ -1,7 +1,7 @@
 [project]
 name = "server"
 version = "0.1.0"
-description = "Visual-ML Server - Production-ready ML platform"
+description = "Flow ML Server - Production-ready ML platform"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

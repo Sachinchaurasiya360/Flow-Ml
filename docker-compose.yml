@@ -1,11 +1,13 @@
+name: flow-ml
+
 services:
   server:
     build: ./server
-    container_name: visual-ml-server
+    container_name: flow-ml-server
     env_file:
       - ./server/.env
     ports:
-      - "3003:3003"
+      - "127.0.0.1:3003:3003"
     volumes:
       - ./server/uploads:/app/uploads
       - ./server/models:/app/models
@@ -20,9 +22,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: visual-ml-redis
-    ports:
-      - "6379:6379"
+    container_name: flow-ml-redis
     volumes:
       - redis-data:/data
     healthcheck:
@@ -30,6 +30,15 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
+    restart: unless-stopped
+
+  client:
+    build: ./client
+    container_name: flow-ml-client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
     restart: unless-stopped
 
 volumes:

@@ -141,7 +141,7 @@ async def verify_email(data: VerifyEmailRequest, response: Response, db: Session
 
     return {
         "user": StudentResponse.model_validate(student),
-        "message": "Email verified successfully! Welcome to Visual ML.",
+        "message": "Email verified successfully! Welcome to Flow ML.",
     }
 
 

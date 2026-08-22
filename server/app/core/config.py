@@ -1,5 +1,5 @@
 """
-Core configuration settings for the Visual-ML application.
+Core configuration settings for the Flow ML application.
 Handles environment variables, database settings, and ML-specific configurations.
 """
 
@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # Application
-    APP_NAME: str = "Visual-ML"
+    APP_NAME: str = "Flow ML"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
     ENVIRONMENT: str = "development"  # development, staging, production
@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30  # 30 minutes for production
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7  # 7 days for refresh tokens
-    COOKIE_DOMAIN: Optional[str] = None  # e.g., ".visualml.xyz" for cross-subdomain cookies
+    COOKIE_DOMAIN: Optional[str] = None  # e.g., ".flowml.xyz" for cross-subdomain cookies
 
     # Google OAuth
     GOOGLE_CLIENT_ID: Optional[str] = None
@@ -75,7 +75,7 @@ class Settings(BaseSettings):
 
     # S3/Storage (for production)
     USE_S3: bool = True  # Set to True to enable S3 storage
-    S3_BUCKET: Optional[str] = None  # e.g., "visual-ml-datasets"
+    S3_BUCKET: Optional[str] = None  # e.g., "flow-ml-datasets"
     S3_REGION: Optional[str] = "us-east-1"  # AWS region
     AWS_ACCESS_KEY_ID: Optional[str] = None  # AWS access key from env
     AWS_SECRET_ACCESS_KEY: Optional[str] = None  # AWS secret key from env
@@ -115,13 +115,13 @@ class Settings(BaseSettings):
     FRONTEND_URL: str = "http://localhost:5173"
 
     # Admin Credentials
-    ADMIN_EMAIL: str = "admin@visualml.com"
+    ADMIN_EMAIL: str = "admin@flowml.com"
     ADMIN_PASSWORD: str = "change-this-password"
 
     # Brevo Email Service
     BREVO_API_KEY: Optional[str] = ""
     BREVO_SENDER_EMAIL: str = ""
-    BREVO_SENDER_NAME: str = "Visual ML"
+    BREVO_SENDER_NAME: str = "Flow ML"
 
     # Redis URL for Celery
     REDIS_URL: str = "redis://localhost:6379/0"

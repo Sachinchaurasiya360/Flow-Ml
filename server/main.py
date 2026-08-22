@@ -1,5 +1,5 @@
 """
-FastAPI application entry point for Visual-ML.
+FastAPI application entry point for Flow ML.
 """
 
 from fastapi import FastAPI, Request, status
@@ -133,7 +133,7 @@ async def general_exception_handler(request: Request, exc: Exception):
             "error": "InternalServerError",
             "message": "An unexpected error occurred",
             "details": {"error": str(exc)} if settings.DEBUG else {},
-            "suggestion": "Please email us at support@visualml.com.",
+            "suggestion": "Please email us at support@flowml.com.",
         },
     )
 
@@ -187,4 +187,3 @@ if __name__ == "__main__":
         reload=settings.DEBUG,
         log_level=settings.LOG_LEVEL.lower(),
     )
- 

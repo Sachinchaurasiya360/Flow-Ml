@@ -96,7 +96,7 @@ class EmailService:
         logger.info(f"Sending OTP verification email to {email}")
         logger.info(f"OTP Code: {otp}")
         
-        subject = "Verify your Visual ML account"
+        subject = "Verify your Flow ML account"
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -117,7 +117,7 @@ class EmailService:
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>Welcome to Visual ML!</h1>
+                    <h1>Welcome to Flow ML!</h1>
                 </div>
                 <div class="content">
                     <p>Hi {name},</p>
@@ -129,10 +129,10 @@ class EmailService:
                     </div>
                     
                     <p><strong>This code will expire in 10 minutes.</strong></p>
-                    <p>If you didn't create an account with Visual ML, please ignore this email.</p>
+                    <p>If you didn't create an account with Flow ML, please ignore this email.</p>
                 </div>
                 <div class="footer">
-                    <p>&copy; 2026 Visual ML. All rights reserved.</p>
+                    <p>&copy; 2026 Flow ML. All rights reserved.</p>
                 </div>
             </div>
         </body>
@@ -159,7 +159,7 @@ class EmailService:
         """
         logger.info(f"Sending welcome email to {email}")
         
-        subject = "Welcome to Visual ML!"
+        subject = "Welcome to Flow ML!"
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -181,13 +181,13 @@ class EmailService:
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>Welcome to Visual ML!</h1>
+                    <h1>Welcome to Flow ML!</h1>
                 </div>
                 <div class="content">
                     <p>Hi {name},</p>
                     <p>Your account has been successfully verified! You're now ready to start building amazing ML pipelines.</p>
                     
-                    <h3>What you can do with Visual ML:</h3>
+                    <h3>What you can do with Flow ML:</h3>
                     
                     <div class="feature">
                         <strong>Visual Pipeline Builder</strong><br>
@@ -214,7 +214,7 @@ class EmailService:
                     <p>Happy building!</p>
                 </div>
                 <div class="footer">
-                    <p>&copy; 2026 Visual ML. All rights reserved.</p>
+                    <p>&copy; 2026 Flow ML. All rights reserved.</p>
                 </div>
             </div>
         </body>
@@ -241,7 +241,7 @@ class EmailService:
         """
         logger.info(f"Sending experience survey to {email}")
         
-        subject = "How's your Visual ML experience?"
+        subject = "How's your Flow ML experience?"
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -265,13 +265,13 @@ class EmailService:
                 </div>
                 <div class="content">
                     <p>Hi {name},</p>
-                    <p>You've been using Visual ML for 10 days now! We hope you're enjoying the experience.</p>
+                    <p>You've been using Flow ML for 10 days now! We hope you're enjoying the experience.</p>
                     
                     <p>We'd really appreciate it if you could take 2 minutes to share your thoughts with us. 
-                    Your feedback helps us make Visual ML better for everyone.</p>
+                    Your feedback helps us make Flow ML better for everyone.</p>
                     
                     <div style="text-align: center;">
-                        <a href="https://forms.google.com/visualml-survey" class="cta-button">
+                        <a href="#feedback" class="cta-button">
                             Share Your Feedback
                         </a>
                     </div>
@@ -281,7 +281,7 @@ class EmailService:
                     <p>Thank you for being part of our community!</p>
                 </div>
                 <div class="footer">
-                    <p>&copy; 2026 Visual ML. All rights reserved.</p>
+                    <p>&copy; 2026 Flow ML. All rights reserved.</p>
                 </div>
             </div>
         </body>
@@ -312,7 +312,7 @@ class EmailService:
         # Create reset link
         reset_link = f"{settings.FRONTEND_URL}/reset-password?token={reset_token}"
         
-        subject = "Reset your Visual ML password"
+        subject = "Reset your Flow ML password"
         html_content = f"""
         <!DOCTYPE html>
         <html>
@@ -340,7 +340,7 @@ class EmailService:
                 </div>
                 <div class="content">
                     <p>Hi {name},</p>
-                    <p>We received a request to reset your Visual ML password. Click the button below to create a new password:</p>
+                    <p>We received a request to reset your Flow ML password. Click the button below to create a new password:</p>
                     
                     <div class="reset-box">
                         <a href="{reset_link}" class="cta-button">
@@ -361,7 +361,7 @@ class EmailService:
                     </p>
                 </div>
                 <div class="footer">
-                    <p>&copy; 2026 Visual ML. All rights reserved.</p>
+                    <p>&copy; 2026 Flow ML. All rights reserved.</p>
                 </div>
             </div>
         </body>

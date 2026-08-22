@@ -1,99 +1,68 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Quote } from "lucide-react";
 
-interface Testimonial {
-  quote: string;
-  name: string;
-  role: string;
-  initials: string;
-}
-
-const testimonials: Testimonial[] = [
+const TESTIMONIALS = [
   {
     quote:
-      "Visual ML transformed how we teach machine learning. Students can now focus on concepts instead of debugging code. The drag-and-drop interface is incredibly intuitive.",
-    name: "Dr. Priya Sharma",
-    role: "Professor, Computer Science",
-    initials: "PS",
+      "Flow ML made machine learning click for me. I built and understood linear regression in one afternoon by watching the loss drop in real time — not by reading a textbook.",
+    name: "Arjun Mehta",
+    role: "CS Undergrad, IIT Bombay",
   },
   {
     quote:
-      "As a data science student, this tool helped me understand ML pipelines visually. I built my first end-to-end model in minutes instead of hours. Absolutely game-changing.",
-    name: "Alex Chen",
-    role: "Graduate Student, Data Science",
-    initials: "AC",
+      "I use it in my algorithms class. Students stop copying code and start actually thinking about each step. The pipeline view is worth a thousand slides.",
+    name: "Dr. Priya Nair",
+    role: "Associate Professor, VIT",
   },
   {
     quote:
-      "The GenAI integration is brilliant. It suggests optimal configurations and helps beginners avoid common pitfalls. Our team's productivity increased significantly.",
-    name: "Rahul Verma",
-    role: "ML Engineer, Startup Founder",
-    initials: "RV",
+      "Switched careers from web dev to ML. Flow ML let me build real models while still learning the theory. I landed my first ML internship four months in.",
+    name: "Sam Torres",
+    role: "Software Engineer → ML Intern",
   },
 ];
 
 const TestimonialsSection: React.FC = () => {
   return (
-    <section className="relative py-32 bg-white overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30" />
-
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
+    <section id="testimonials" className="py-32 bg-neutral-950">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <motion.div
-          className="text-center space-y-4 mb-16"
-          initial={{ opacity: 0, y: 30 }}
+          className="max-w-lg mb-20"
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
-          <h2 className="text-4xl lg:text-5xl font-bold bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">
-            Loved by learners and builders
-          </h2>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto font-light">
-            See what our community has to say about Visual ML
+          <p className="text-[11px] font-medium tracking-widest uppercase text-neutral-600 mb-4">
+            Testimonials
           </p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-100 tracking-tight leading-tight">
+            Trusted by students
+            <br />
+            and educators alike.
+          </h2>
         </motion.div>
 
-        {/* Testimonial Cards */}
         <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={testimonial.name}
-              initial={{ opacity: 0, y: 30 }}
+          {TESTIMONIALS.map((t, i) => (
+            <motion.blockquote
+              key={t.name}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              className="group relative bg-white/80 backdrop-blur-xl border border-slate-200/60 rounded-2xl p-8 hover:shadow-xl hover:shadow-slate-900/10 transition-all duration-300 ring-1 ring-slate-900/5"
+              transition={{ duration: 0.4, delay: i * 0.1 }}
+              className="bg-neutral-900 border border-white/[0.06] rounded-xl p-7 flex flex-col"
             >
-              {/* Quote icon */}
-              <div className="mb-6">
-                <div className="w-10 h-10 rounded-xl bg-linear-to-br from-slate-900 to-slate-700 flex items-center justify-center shadow-lg shadow-slate-900/25">
-                  <Quote className="w-5 h-5 text-white" />
-                </div>
-              </div>
-
-              {/* Quote text */}
-              <p className="text-slate-600 leading-relaxed mb-8 text-sm">
-                "{testimonial.quote}"
+              <p className="text-[15px] text-neutral-400 leading-relaxed flex-1">
+                &ldquo;{t.quote}&rdquo;
               </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3 pt-6 border-t border-slate-200/60">
-                <div className="w-10 h-10 rounded-full bg-linear-to-br from-slate-900 to-slate-700 flex items-center justify-center shadow-md">
-                  <span className="text-white text-sm font-semibold">
-                    {testimonial.initials}
-                  </span>
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-slate-900">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-xs text-slate-500">{testimonial.role}</p>
-                </div>
-              </div>
-            </motion.div>
+              <footer className="mt-6 pt-5 border-t border-white/[0.05]">
+                <p className="text-sm font-semibold text-neutral-200">
+                  {t.name}
+                </p>
+                <p className="text-[12px] text-neutral-600 mt-0.5">{t.role}</p>
+              </footer>
+            </motion.blockquote>
           ))}
         </div>
       </div>

@@ -1,5 +1,5 @@
 """
-Custom exception classes for the Visual-ML application.
+Custom exception classes for the Flow ML application.
 Provides detailed error messages for students to debug issues.
 """
 

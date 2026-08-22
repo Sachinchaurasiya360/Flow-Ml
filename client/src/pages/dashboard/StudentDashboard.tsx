@@ -113,7 +113,7 @@ const StudentDashboard: React.FC = () => {
               <div className="w-9 h-9 rounded-xl bg-linear-to-r from-emerald-500 to-emerald-600 flex items-center justify-center shadow-sm">
                 <FolderKanban className="w-4.5 h-4.5 text-white" />
               </div>
-              <h1 className="text-xl font-bold text-slate-900">Visual ML</h1>
+              <h1 className="text-xl font-bold text-slate-900">Flow ML</h1>
               {user?.isPremium && (
                 <span className="px-2.5 py-0.5 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full border border-amber-200">
                   Premium

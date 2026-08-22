@@ -1,4 +1,4 @@
-# Visual-ML
+# Flow ML
 
 A production-ready visual machine learning platform that enables users to build, train, and deploy ML models through an intuitive node-based interface. Perfect for students, educators, and ML practitioners who want to understand machine learning workflows visually.
 
@@ -91,6 +91,24 @@ A production-ready visual machine learning platform that enables users to build,
 - Redis (for caching and background tasks)
 - AWS account (optional, for S3 storage)
 
+### Run on a VM with Docker
+
+1. Install Docker Engine and the Docker Compose plugin on the VM, then clone this repository.
+2. Create the server environment file and set the production values, especially `DATABASE_URL`, `SECRET_KEY`, `ALLOWED_ORIGINS`, and any required API keys:
+
+```bash
+cp server/.env.example server/.env
+chmod 600 server/.env
+```
+
+3. Start Flow ML from the repository root:
+
+```bash
+docker compose up -d --build
+```
+
+The web application is available on port `80`; the API is exposed only on the VM loopback interface at port `3003`. Check service status with `docker compose ps` and logs with `docker compose logs -f`.
+
 ### Client Setup
 
 ```bash
@@ -115,7 +133,7 @@ uv sync
 
 ```env
 # Database
-DATABASE_URL=postgresql://user:password@localhost/visual_ml
+DATABASE_URL=postgresql://user:password@localhost/flow_ml
 
 # Security
 SECRET_KEY=your-secret-key-min-32-chars
@@ -166,7 +184,7 @@ celery -A app.workers.celery_app beat --loglevel=info
 ## 🗂️ Project Structure
 
 ```
-Visual-ML/
+Flow-ML/
 ├── client/                    # React frontend
 │   ├── src/
 │   │   ├── app/              # Main app component & routing

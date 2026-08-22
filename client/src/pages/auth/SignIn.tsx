@@ -277,7 +277,9 @@ const SignIn: React.FC = () => {
             </motion.button>
           </form>
 
-          {/* Divider */}
+          {/* Google sign-in is temporarily unavailable. */}
+          {false && (
+            <>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-slate-200/60"></div>
@@ -289,10 +291,11 @@ const SignIn: React.FC = () => {
             </div>
           </div>
 
-          {/* Google Sign In Button */}
           <div className="w-full">
             <div ref={googleButtonRef} className="w-full"></div>
           </div>
+            </>
+          )}
 
           {/* Sign Up Link */}
           <p className="text-center text-sm text-slate-600">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router";
-import { Sparkles, Menu, X, ArrowRight, LogOut, LayoutDashboard } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 type NavbarVariant = "landing" | "auth-signin" | "auth-signup" | "profile";
 
@@ -12,367 +12,185 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ variant = "landing" }) => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handler = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handler, { passive: true });
+    return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      setMobileMenuOpen(false);
-    }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    localStorage.removeItem("user");
-    navigate("/signin");
-  };
-
-  const handleLogoClick = () => {
-    if (variant === "landing") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
-      navigate("/");
-    }
-  };
-
-  const navItems = [
-    { label: "Features", id: "features" },
-    { label: "GenAI", id: "genai", badge: "New" },
-    { label: "How It Works", id: "how-it-works" },
-    { label: "Templates", id: "templates" },
+  const navLinks = [
+    { label: "Features", href: "#features" },
+    { label: "Algorithms", href: "#algorithms" },
+    { label: "How it works", href: "#workflow" },
   ];
 
   return (
     <>
-      <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      <motion.header
+        initial={{ opacity: 0, y: -8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+        className={`fixed top-0 inset-x-0 z-50 h-14 transition-all duration-300 ${
           scrolled
-            ? "bg-white/90 backdrop-blur-xl border-b border-slate-200/60 shadow-lg shadow-slate-900/5"
-            : "bg-white/50 backdrop-blur-sm border-b border-transparent"
+            ? "bg-neutral-950/92 backdrop-blur-md border-b border-white/[0.06]"
+            : "bg-transparent"
         }`}
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <motion.div
-              className="shrink-0 cursor-pointer"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              onClick={handleLogoClick}
-            >
-              <div className="flex items-center gap-2">
-                <div className="relative w-8 h-8 rounded-lg bg-linear-to-br from-slate-900 to-slate-700 flex items-center justify-center shadow-md shadow-slate-900/25">
-                  <Sparkles className="w-4 h-4 text-white" />
-                  <div className="absolute inset-0 rounded-lg bg-linear-to-br from-white/20 to-transparent" />
-                </div>
-                <span className="text-xl font-bold bg-linear-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
-                  Visual ML
-                </span>
-              </div>
-            </motion.div>
-
-            {/* Desktop Navigation - Landing only */}
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-full flex items-center justify-between">
+          <button
+            onClick={() =>
+              variant === "landing"
+                ? window.scrollTo({ top: 0, behavior: "smooth" })
+                : navigate("/")
+            }
+            className="flex items-center gap-2.5"
+          >
+            <div className="w-6 h-6 bg-indigo-500 rounded-[5px] grid place-items-center flex-shrink-0">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <circle cx="3" cy="3" r="1.5" fill="white" />
+                <circle cx="9" cy="3" r="1.5" fill="white" opacity="0.45" />
+                <circle cx="3" cy="9" r="1.5" fill="white" opacity="0.45" />
+                <circle cx="9" cy="9" r="1.5" fill="white" />
+                <path
+                  d="M4.5 3H7.5M3 4.5V7.5M9 4.5V7.5M4.5 9H7.5"
+                  stroke="white"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  opacity="0.4"
+                />
+              </svg>
+            </div>
+            <span className="text-[13px] font-semibold text-neutral-100 tracking-tight">
+              Flow ML
+            </span>
             {variant === "landing" && (
-              <motion.div
-                className="hidden md:flex items-center space-x-1"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-              >
-                {navItems.map((item) => (
-                  <motion.button
-                    key={item.id}
-                    onClick={() => scrollToSection(item.id)}
-                    className="relative text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-4 py-2 rounded-lg hover:bg-slate-100/50 group"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    {item.label}
-                    {item.badge && (
-                      <span className="absolute -top-1 -right-1 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700 bg-emerald-100 rounded-full border border-emerald-200">
-                        {item.badge}
-                      </span>
-                    )}
-                    <motion.div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-linear-to-r from-slate-900 to-slate-700 group-hover:w-3/4 transition-all duration-300" />
-                  </motion.button>
-                ))}
-              </motion.div>
+              <span className="rounded-full border border-indigo-400/20 bg-indigo-400/10 px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-indigo-300">
+                Beta mode
+              </span>
             )}
+          </button>
 
-            {/* Desktop Right Side */}
-            <motion.div
-              className="hidden md:flex items-center space-x-3"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              {variant === "landing" && (
-                <>
-                  <motion.button
-                    onClick={() => navigate("/signin")}
-                    className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-4 py-2 rounded-lg hover:bg-slate-100/50"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Sign in
-                  </motion.button>
-                  <motion.button
-                    onClick={() => navigate("/signup")}
-                    className="group relative text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 transition-all duration-300 px-6 py-2.5 rounded-xl shadow-lg shadow-slate-900/25 hover:shadow-xl hover:shadow-slate-900/40 overflow-hidden"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <span className="relative z-10 flex items-center gap-1.5">
-                      Get started
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-                    <div className="absolute inset-0 bg-linear-to-r from-slate-800 to-slate-700 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </motion.button>
-                </>
-              )}
+          {variant === "landing" && (
+            <nav className="hidden md:flex items-center gap-7">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors duration-200"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+          )}
 
-              {variant === "auth-signin" && (
-                <>
-                  <span className="text-sm text-slate-500">
-                    Don't have an account?
-                  </span>
-                  <motion.button
-                    onClick={() => navigate("/signup")}
-                    className="group relative text-sm font-medium text-white bg-slate-900 hover:bg-slate-800 transition-all duration-300 px-6 py-2.5 rounded-xl shadow-lg shadow-slate-900/25 hover:shadow-xl hover:shadow-slate-900/40 overflow-hidden"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <span className="relative z-10 flex items-center gap-1.5">
-                      Sign up
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                    </span>
-                    <div className="absolute inset-0 bg-linear-to-r from-slate-800 to-slate-700 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  </motion.button>
-                </>
-              )}
-
-              {variant === "auth-signup" && (
-                <>
-                  <span className="text-sm text-slate-500">
-                    Already have an account?
-                  </span>
-                  <motion.button
-                    onClick={() => navigate("/signin")}
-                    className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-4 py-2 rounded-lg hover:bg-slate-100/50"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Sign in
-                  </motion.button>
-                </>
-              )}
-
-              {variant === "profile" && (
-                <>
-                  <motion.button
-                    onClick={() => navigate("/dashboard")}
-                    className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors px-4 py-2 rounded-lg hover:bg-slate-100/50 flex items-center gap-2"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <LayoutDashboard className="w-4 h-4" />
-                    Dashboard
-                  </motion.button>
-                  <motion.button
-                    onClick={handleLogout}
-                    className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors px-4 py-2 rounded-lg hover:bg-red-50 flex items-center gap-2 border border-red-200/50 hover:border-red-300"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <LogOut className="w-4 h-4" />
-                    Logout
-                  </motion.button>
-                </>
-              )}
-            </motion.div>
-
-            {/* Mobile Menu Button */}
-            <motion.button
-              className="md:hidden p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-100/50 rounded-lg transition-colors"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              whileTap={{ scale: 0.95 }}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </motion.button>
+          <div className="flex items-center gap-3">
+            {variant === "landing" && (
+              <>
+                <button
+                  onClick={() => navigate("/signin")}
+                  className="hidden md:block text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors"
+                >
+                  Sign in
+                </button>
+                <button
+                  onClick={() => navigate("/signup")}
+                  className="text-[13px] font-medium bg-neutral-100 text-neutral-950 hover:bg-white transition-colors px-3.5 py-1.5 rounded-md"
+                >
+                  Start free
+                </button>
+                <button
+                  onClick={() => setMobileOpen(true)}
+                  className="md:hidden text-neutral-400 p-1"
+                  aria-label="Open menu"
+                >
+                  <Menu className="w-5 h-5" />
+                </button>
+              </>
+            )}
+            {variant === "auth-signin" && (
+              <button
+                onClick={() => navigate("/signup")}
+                className="text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors"
+              >
+                Create account
+              </button>
+            )}
+            {variant === "auth-signup" && (
+              <button
+                onClick={() => navigate("/signin")}
+                className="text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors"
+              >
+                Sign in
+              </button>
+            )}
           </div>
         </div>
-      </motion.nav>
+      </motion.header>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-40 md:hidden"
+            className="fixed inset-0 z-50 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
           >
-            {/* Backdrop */}
             <motion.div
-              className="absolute inset-0 bg-slate-900/20 backdrop-blur-sm"
-              onClick={() => setMobileMenuOpen(false)}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-neutral-950/80 backdrop-blur-sm"
+              onClick={() => setMobileOpen(false)}
             />
-
-            {/* Menu Content */}
             <motion.div
-              className="absolute top-16 left-0 right-0 bg-white/95 backdrop-blur-xl border-b border-slate-200/60 shadow-2xl shadow-slate-900/10"
-              initial={{ y: -20, opacity: 0 }}
+              className="absolute top-0 inset-x-0 bg-neutral-900 border-b border-white/[0.06] p-6"
+              initial={{ y: -16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -20, opacity: 0 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
+              exit={{ y: -16, opacity: 0 }}
+              transition={{ duration: 0.2 }}
             >
-              <div className="max-w-7xl mx-auto px-6 py-6 space-y-1">
-                {/* Landing nav items */}
-                {variant === "landing" &&
-                  navItems.map((item, index) => (
-                    <motion.button
-                      key={item.id}
-                      onClick={() => scrollToSection(item.id)}
-                      className="w-full text-left px-4 py-3 text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 rounded-xl transition-colors flex items-center justify-between group"
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <span>{item.label}</span>
-                      {item.badge && (
-                        <span className="px-2 py-1 text-xs font-semibold text-emerald-700 bg-emerald-100 rounded-full border border-emerald-200">
-                          {item.badge}
-                        </span>
-                      )}
-                    </motion.button>
-                  ))}
-
-                <div className="pt-4 mt-4 border-t border-slate-200/60 space-y-2">
-                  {variant === "landing" && (
-                    <>
-                      <motion.button
-                        onClick={() => {
-                          navigate("/signin");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full px-4 py-3 text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 rounded-xl transition-colors text-center"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.3 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Sign in
-                      </motion.button>
-                      <motion.button
-                        onClick={() => {
-                          navigate("/signup");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full px-4 py-3 text-base font-medium text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all shadow-lg shadow-slate-900/25 flex items-center justify-center gap-2"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.35 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        Get started
-                        <ArrowRight className="w-4 h-4" />
-                      </motion.button>
-                    </>
-                  )}
-
-                  {variant === "auth-signin" && (
-                    <motion.button
-                      onClick={() => {
-                        navigate("/signup");
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-3 text-base font-medium text-white bg-slate-900 hover:bg-slate-800 rounded-xl transition-all shadow-lg shadow-slate-900/25 flex items-center justify-center gap-2"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0.1 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Sign up
-                      <ArrowRight className="w-4 h-4" />
-                    </motion.button>
-                  )}
-
-                  {variant === "auth-signup" && (
-                    <motion.button
-                      onClick={() => {
-                        navigate("/signin");
-                        setMobileMenuOpen(false);
-                      }}
-                      className="w-full px-4 py-3 text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 rounded-xl transition-colors text-center"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: 0.1 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      Sign in
-                    </motion.button>
-                  )}
-
-                  {variant === "profile" && (
-                    <>
-                      <motion.button
-                        onClick={() => {
-                          navigate("/dashboard");
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full px-4 py-3 text-base font-medium text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 rounded-xl transition-colors flex items-center justify-center gap-2"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.1 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <LayoutDashboard className="w-4 h-4" />
-                        Dashboard
-                      </motion.button>
-                      <motion.button
-                        onClick={() => {
-                          handleLogout();
-                          setMobileMenuOpen(false);
-                        }}
-                        className="w-full px-4 py-3 text-base font-medium text-red-600 hover:bg-red-50 rounded-xl transition-colors flex items-center justify-center gap-2"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: 0.15 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <LogOut className="w-4 h-4" />
-                        Logout
-                      </motion.button>
-                    </>
-                  )}
-                </div>
+              <div className="flex items-center justify-between mb-8">
+                <span className="text-sm font-semibold text-neutral-100">
+                  Flow ML
+                </span>
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="text-neutral-500 hover:text-neutral-300"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <nav className="space-y-1">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block py-2.5 text-sm text-neutral-400 hover:text-neutral-100 transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+              <div className="mt-6 pt-6 border-t border-white/[0.06] flex flex-col gap-3">
+                <button
+                  onClick={() => {
+                    navigate("/signin");
+                    setMobileOpen(false);
+                  }}
+                  className="py-2.5 text-sm text-neutral-400 text-center"
+                >
+                  Sign in
+                </button>
+                <button
+                  onClick={() => {
+                    navigate("/signup");
+                    setMobileOpen(false);
+                  }}
+                  className="py-2.5 text-sm font-medium bg-neutral-100 text-neutral-950 rounded-md text-center"
+                >
+                  Start free
+                </button>
               </div>
             </motion.div>
           </motion.div>
