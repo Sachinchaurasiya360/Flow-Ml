@@ -172,6 +172,14 @@ const SignIn: React.FC = () => {
             </motion.div>
           )}
 
+          <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
+            <p className="text-sm leading-6 text-blue-950">
+              Flow ML is currently in ideation mode and available as a beta for
+              testing and feedback. A more complete, industry-ready version is
+              launching soon.
+            </p>
+          </div>
+
           <div className="flex flex-col gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-xs font-semibold text-amber-900">Test credentials</p>
