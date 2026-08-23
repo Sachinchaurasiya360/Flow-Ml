@@ -26,7 +26,8 @@ export const executePipelineStream = async (
     const token = localStorage.getItem("access_token");
 
     // Create EventSource URL with auth token as query param (SSE doesn't support headers)
-    const url = new URL(`${env.API_URL}/ml/pipeline/run/stream`);
+    // Use window.location.origin as base so relative API_URL paths resolve correctly
+    const url = new URL(`${env.API_URL}/ml/pipeline/run/stream`, window.location.origin);
 
     // Use fetch to send POST request and get readable stream
     const abortController = new AbortController();
