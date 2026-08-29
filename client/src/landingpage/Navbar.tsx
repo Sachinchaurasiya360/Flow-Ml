@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router";
-import { Menu, X } from "lucide-react";
 
 type NavbarVariant = "landing" | "auth-signin" | "auth-signup" | "profile";
 
@@ -12,7 +11,6 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ variant = "landing" }) => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 20);
@@ -27,180 +25,100 @@ const Navbar: React.FC<NavbarProps> = ({ variant = "landing" }) => {
   ];
 
   return (
-    <>
-      <motion.header
-        initial={{ opacity: 0, y: -8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-        className={`fixed top-0 inset-x-0 z-50 h-14 transition-all duration-300 ${
-          scrolled
-            ? variant === "landing"
-              ? "bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm shadow-slate-900/5"
-              : "bg-neutral-950/92 backdrop-blur-md border-b border-white/[0.06]"
-            : variant === "landing"
-              ? "bg-[#F4F6FF]/80 backdrop-blur-md border-b border-slate-200/70"
-              : "bg-transparent"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 h-full flex items-center justify-between">
-          <button
-            onClick={() =>
-              variant === "landing"
-                ? window.scrollTo({ top: 0, behavior: "smooth" })
-                : navigate("/")
-            }
-            className="flex items-center gap-2.5"
-          >
-            <div className="w-6 h-6 bg-indigo-500 rounded-[5px] grid place-items-center flex-shrink-0">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <circle cx="3" cy="3" r="1.5" fill="white" />
-                <circle cx="9" cy="3" r="1.5" fill="white" opacity="0.45" />
-                <circle cx="3" cy="9" r="1.5" fill="white" opacity="0.45" />
-                <circle cx="9" cy="9" r="1.5" fill="white" />
-                <path
-                  d="M4.5 3H7.5M3 4.5V7.5M9 4.5V7.5M4.5 9H7.5"
-                  stroke="white"
-                  strokeWidth="1"
-                  strokeLinecap="round"
-                  opacity="0.4"
-                />
-              </svg>
-            </div>
-            <span className={`text-[13px] font-semibold tracking-tight ${variant === "landing" ? "text-slate-900" : "text-neutral-100"}`}>
-              Flow ML
-            </span>
-            {variant === "landing" && (
-              <span className="border-l border-slate-300 pl-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-700">
-                Beta version
-              </span>
-            )}
-          </button>
-
+    <motion.header
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+      className={`fixed top-0 inset-x-0 z-50 h-14 transition-all duration-300 ${
+        scrolled
+          ? "bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm shadow-slate-900/5"
+          : "bg-[#F4F6FF]/80 backdrop-blur-md border-b border-slate-200/70"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-full flex items-center justify-between">
+        <button
+          onClick={() =>
+            variant === "landing"
+              ? window.scrollTo({ top: 0, behavior: "smooth" })
+              : navigate("/")
+          }
+          className="flex items-center gap-2.5"
+        >
+          <div className="w-6 h-6 bg-indigo-500 rounded-[5px] grid place-items-center flex-shrink-0">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <circle cx="3" cy="3" r="1.5" fill="white" />
+              <circle cx="9" cy="3" r="1.5" fill="white" opacity="0.45" />
+              <circle cx="3" cy="9" r="1.5" fill="white" opacity="0.45" />
+              <circle cx="9" cy="9" r="1.5" fill="white" />
+              <path
+                d="M4.5 3H7.5M3 4.5V7.5M9 4.5V7.5M4.5 9H7.5"
+                stroke="white"
+                strokeWidth="1"
+                strokeLinecap="round"
+                opacity="0.4"
+              />
+            </svg>
+          </div>
+          <span className="text-[13px] font-semibold tracking-tight text-slate-900">
+            Flow ML
+          </span>
           {variant === "landing" && (
-            <nav className="hidden md:flex items-center gap-7">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors duration-200"
-                >
-                  {link.label}
-                </a>
-              ))}
-            </nav>
+            <span className="border-l border-slate-300 pl-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-700">
+              Beta version
+            </span>
           )}
+        </button>
 
-          <div className="flex items-center gap-3">
-            {variant === "landing" && (
-              <>
-                <button
-                  onClick={() => navigate("/signin")}
-                  className="hidden md:block text-[13px] text-slate-500 hover:text-slate-900 transition-colors"
-                >
-                  Sign in
-                </button>
-                <button
-                  onClick={() => navigate("/signup")}
-                  className="text-[13px] font-medium bg-[#D97706] text-white hover:bg-[#B45309] transition-colors px-3.5 py-1.5 rounded-md"
-                >
-                  Start free
-                </button>
-                <button
-                  onClick={() => setMobileOpen(true)}
-                  className="md:hidden text-slate-500 p-1"
-                  aria-label="Open menu"
-                >
-                  <Menu className="w-5 h-5" />
-                </button>
-              </>
-            )}
-            {variant === "auth-signin" && (
-              <button
-                onClick={() => navigate("/signup")}
-                className="text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors"
+        {variant === "landing" && (
+          <nav className="hidden md:flex items-center gap-7">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors duration-200"
               >
-                Create account
-              </button>
-            )}
-            {variant === "auth-signup" && (
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        )}
+
+        <div className="flex items-center gap-3">
+          {variant === "landing" && (
+            <>
               <button
                 onClick={() => navigate("/signin")}
-                className="text-[13px] text-neutral-500 hover:text-neutral-200 transition-colors"
+                className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors"
               >
                 Sign in
               </button>
-            )}
-          </div>
-        </div>
-      </motion.header>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            className="fixed inset-0 z-50 md:hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="absolute inset-0 bg-neutral-950/80 backdrop-blur-sm"
-              onClick={() => setMobileOpen(false)}
-            />
-            <motion.div
-              className="absolute top-0 inset-x-0 bg-neutral-900 border-b border-white/[0.06] p-6"
-              initial={{ y: -16, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: -16, opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              <button
+                onClick={() => navigate("/signup")}
+                className="text-[13px] font-medium bg-[#D97706] text-white hover:bg-[#B45309] transition-colors px-3.5 py-1.5 rounded-md"
+              >
+                Start free
+              </button>
+            </>
+          )}
+          {variant === "auth-signin" && (
+            <button
+              onClick={() => navigate("/signup")}
+              className="text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors"
             >
-              <div className="flex items-center justify-between mb-8">
-                <span className="text-sm font-semibold text-neutral-100">
-                  Flow ML
-                </span>
-                <button
-                  onClick={() => setMobileOpen(false)}
-                  className="text-neutral-500 hover:text-neutral-300"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-              <nav className="space-y-1">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    className="block py-2.5 text-sm text-neutral-400 hover:text-neutral-100 transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </nav>
-              <div className="mt-6 pt-6 border-t border-white/[0.06] flex flex-col gap-3">
-                <button
-                  onClick={() => {
-                    navigate("/signin");
-                    setMobileOpen(false);
-                  }}
-                  className="py-2.5 text-sm text-neutral-400 text-center"
-                >
-                  Sign in
-                </button>
-                <button
-                  onClick={() => {
-                    navigate("/signup");
-                    setMobileOpen(false);
-                  }}
-                  className="py-2.5 text-sm font-medium bg-neutral-100 text-neutral-950 rounded-md text-center"
-                >
-                  Start free
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+              Create account
+            </button>
+          )}
+          {variant === "auth-signup" && (
+            <button
+              onClick={() => navigate("/signin")}
+              className="text-[13px] font-medium text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              Sign in
+            </button>
+          )}
+        </div>
+      </div>
+    </motion.header>
   );
 };
 

@@ -1,5 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Mail,
+  Lock,
+  ArrowRight,
+  Check,
+  Database,
+  SlidersHorizontal,
+  BrainCircuit,
+} from "lucide-react";
 import { motion } from "framer-motion";
 import axiosInstance from "../../lib/axios";
 import { useNavigate } from "react-router";
@@ -119,227 +129,255 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-slate-50 via-white to-slate-50 px-4 pt-24 pb-12 relative overflow-hidden">
+    <div className="min-h-screen bg-[#F4F6FF]">
       <Navbar variant="auth-signin" />
-      {/* Premium Background Pattern */}
-      <div className="fixed inset-0 bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30" />
 
-      {/* Animated Gradient Orbs */}
-      <div className="fixed top-0 left-0 w-96 h-96 bg-linear-to-br from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse" />
-      <div
-        className="fixed bottom-0 right-0 w-96 h-96 bg-linear-to-br from-violet-400/20 to-pink-400/20 rounded-full blur-3xl animate-pulse"
-        style={{ animationDelay: "1s" }}
-      />
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-md w-full space-y-8 relative z-10"
-      >
-        {/* Logo and Header */}
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center gap-12 px-6 pt-28 pb-16 lg:flex-row lg:items-center lg:gap-16 lg:px-8">
+        {/* Showcase panel */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-center"
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.6 }}
+          className="hidden w-full max-w-md flex-col justify-center rounded-3xl border border-[#FDE68A] bg-white p-10 shadow-sm lg:flex lg:w-1/2"
         >
-          <h2 className="text-4xl font-bold bg-linear-to-r from-slate-900 via-slate-800 to-slate-900 bg-clip-text text-transparent">
-            Welcome back
-          </h2>
-          <p className="mt-3 text-base text-slate-600">
-            Sign in to continue building amazing ML projects
+          <p className="text-[11px] font-semibold uppercase tracking-widest text-amber-700">
+            Flow ML
           </p>
+          <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-slate-900">
+            Build ML pipelines,
+            <br />
+            without writing code.
+          </h1>
+          <p className="mt-4 text-sm leading-relaxed text-slate-600">
+            Sign in to pick up your workflows, run experiments, and keep
+            learning where you left off.
+          </p>
+
+          <div className="mt-10 flex items-center gap-3">
+            {[
+              { icon: Database, label: "Data" },
+              { icon: SlidersHorizontal, label: "Prepare" },
+              { icon: BrainCircuit, label: "Train" },
+            ].map((step, i, arr) => {
+              const Icon = step.icon;
+              return (
+                <React.Fragment key={step.label}>
+                  <div className="flex flex-col items-center gap-2 rounded-xl border border-slate-200 bg-[#F8FAFC] px-4 py-3">
+                    <Icon className="h-4 w-4 text-amber-700" />
+                    <span className="text-[10px] font-semibold text-slate-600">
+                      {step.label}
+                    </span>
+                  </div>
+                  {i < arr.length - 1 && (
+                    <div className="h-px w-6 flex-1 bg-slate-300" />
+                  )}
+                </React.Fragment>
+              );
+            })}
+          </div>
+
+          <ul className="mt-10 space-y-3">
+            {[
+              "Drag-and-drop dataset, model, and evaluation nodes",
+              "Watch every run animate step by step",
+              "Export finished pipelines as Python code",
+            ].map((point) => (
+              <li
+                key={point}
+                className="flex items-start gap-3 text-sm text-slate-600"
+              >
+                <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
+                  <Check className="h-3 w-3" />
+                </span>
+                {point}
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
-        {/* Sign In Form */}
+        {/* Form panel */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl shadow-slate-900/10 p-8 space-y-6 border border-slate-200/60 ring-1 ring-slate-900/5"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+          className="w-full max-w-md lg:w-1/2"
         >
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-start gap-3"
-            >
-              <div className="w-5 h-5 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-red-600 text-xs font-bold">!</span>
-              </div>
-              <p className="text-sm text-red-800 flex-1">{error}</p>
-            </motion.div>
-          )}
-
-          <div className="rounded-xl border border-blue-200 bg-blue-50 p-4">
-            <p className="text-sm leading-6 text-blue-950">
-              Flow ML is currently in ideation mode and available as a beta for
-              testing and feedback. A more complete, industry-ready version is
-              launching soon.
+          <div className="text-center lg:text-left">
+            <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+              Welcome back
+            </h2>
+            <p className="mt-2 text-sm text-slate-600">
+              Sign in to continue building amazing ML projects.
             </p>
           </div>
 
-          <div className="flex flex-col gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <p className="text-xs font-semibold text-amber-900">Test credentials</p>
-              <p className="mt-1 text-xs text-amber-800">demo@flowml.com · Demo@12345</p>
-            </div>
-            <button
-              type="button"
-              onClick={fillTestCredentials}
-              className="rounded-lg bg-amber-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-amber-700"
-            >
-              Use test account
-            </button>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email Input */}
-            <div>
-              <label
-                htmlFor="emailId"
-                className="block text-sm font-semibold text-slate-700 mb-2"
+          <div className="mt-8 space-y-6 rounded-2xl border border-slate-200 bg-white p-8 shadow-xl shadow-slate-900/5">
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4"
               >
-                Email address
-              </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 " />
+                <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-red-100">
+                  <span className="text-xs font-bold text-red-600">!</span>
                 </div>
-                <input
-                  id="emailId"
-                  name="emailId"
-                  type="email"
-                  required
-                  value={formData.emailId}
-                  onChange={handleChange}
-                  className="block w-full pl-12 pr-4 py-3.5 bg-white/60 border border-slate-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-sm hover:shadow-md backdrop-blur-sm font-medium text-slate-900 placeholder:text-slate-400"
-                  placeholder="you@example.com"
-                />
+                <p className="flex-1 text-sm text-red-800">{error}</p>
+              </motion.div>
+            )}
+
+            <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-4">
+              <p className="text-sm leading-6 text-indigo-950">
+                Flow ML is currently in ideation mode and available as a beta
+                for testing and feedback. A more complete, industry-ready
+                version is launching soon.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-3 rounded-xl border border-amber-200 bg-amber-50 p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-semibold text-amber-900">
+                  Test credentials
+                </p>
+                <p className="mt-1 text-xs text-amber-800">
+                  demo@flowml.com · Demo@12345
+                </p>
               </div>
+              <button
+                type="button"
+                onClick={fillTestCredentials}
+                className="rounded-lg bg-amber-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-amber-700"
+              >
+                Use test account
+              </button>
             </div>
 
-            {/* Password Input */}
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-semibold text-slate-700 mb-2"
-              >
-                Password
-              </label>
-              <div className="relative group">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 " />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="block w-full pl-12 pr-12 py-3.5 bg-white/60 border border-slate-200/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all shadow-sm hover:shadow-md backdrop-blur-sm font-medium text-slate-900 placeholder:text-slate-400"
-                  placeholder="Enter your password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center group"
+            <form onSubmit={handleSubmit} className="space-y-5">
+              {/* Email Input */}
+              <div>
+                <label
+                  htmlFor="emailId"
+                  className="mb-2 block text-sm font-semibold text-slate-700"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-slate-400 hover:text-slate-700 transition-colors" />
-                  ) : (
-                    <Eye className="h-5 w-5 text-slate-400 hover:text-slate-700 transition-colors" />
-                  )}
-                </button>
+                  Email address
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                    <Mail className="h-5 w-5 text-slate-400" />
+                  </div>
+                  <input
+                    id="emailId"
+                    name="emailId"
+                    type="email"
+                    required
+                    value={formData.emailId}
+                    onChange={handleChange}
+                    className="block w-full rounded-xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 font-medium text-slate-900 shadow-sm transition-all placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder="you@example.com"
+                  />
+                </div>
               </div>
-            </div>
 
-            {/* Forgot Password Link */}
-            <div className="flex items-center justify-end">
-              <a
-                href="/auth/forgot-password"
-                className="text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
-              >
-                Forgot your password?
-              </a>
-            </div>
-
-            {/* Submit Button */}
-            <motion.button
-              type="submit"
-              disabled={loading}
-              whileHover={{ scale: 1.02, y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="group w-full flex justify-center items-center gap-2 py-3.5 px-4 border border-transparent rounded-xl shadow-lg text-base font-semibold text-white bg-slate-900 hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all hover:shadow-xl hover:shadow-slate-900/40 shadow-slate-900/25"
-            >
-              {loading ? (
-                <>
-                  <svg
-                    className="animate-spin h-5 w-5 text-white"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
+              {/* Password Input */}
+              <div>
+                <label
+                  htmlFor="password"
+                  className="mb-2 block text-sm font-semibold text-slate-700"
+                >
+                  Password
+                </label>
+                <div className="relative">
+                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+                    <Lock className="h-5 w-5 text-slate-400" />
+                  </div>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="block w-full rounded-xl border border-slate-200 bg-white py-3.5 pl-12 pr-12 font-medium text-slate-900 shadow-sm transition-all placeholder:text-slate-400 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    placeholder="Enter your password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-4"
                   >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    ></circle>
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                    ></path>
-                  </svg>
-                  <span>Signing in...</span>
-                </>
-              ) : (
-                <>
-                  <span>Sign in</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </>
-              )}
-            </motion.button>
-          </form>
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-slate-400 transition-colors hover:text-slate-700" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-slate-400 transition-colors hover:text-slate-700" />
+                    )}
+                  </button>
+                </div>
+              </div>
 
-          {/* Google sign-in is temporarily unavailable. */}
-          {false && (
-            <>
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-200/60"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-4 bg-white/80 text-slate-500 font-medium">
-                Or continue with
-              </span>
-            </div>
+              {/* Forgot Password Link */}
+              <div className="flex items-center justify-end">
+                <a
+                  href="/auth/forgot-password"
+                  className="text-sm font-semibold text-amber-700 transition-colors hover:text-amber-800"
+                >
+                  Forgot your password?
+                </a>
+              </div>
+
+              {/* Submit Button */}
+              <motion.button
+                type="submit"
+                disabled={loading}
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                className="group flex w-full items-center justify-center gap-2 rounded-xl border border-transparent bg-[#D97706] px-4 py-3.5 text-base font-semibold text-white shadow-lg shadow-amber-900/20 transition-all hover:bg-[#B45309] hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-amber-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {loading ? (
+                  <>
+                    <svg
+                      className="h-5 w-5 animate-spin text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    <span>Signing in...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Sign in</span>
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </>
+                )}
+              </motion.button>
+            </form>
+
+            {/* Sign Up Link */}
+            <p className="text-center text-sm text-slate-600">
+              Don't have an account?{" "}
+              <motion.a
+                onClick={() => navigate("/signup")}
+                whileHover={{ scale: 1.05 }}
+                className="inline-block cursor-pointer font-semibold text-amber-700 transition-colors hover:text-amber-800"
+              >
+                Sign up
+              </motion.a>
+            </p>
           </div>
-
-          <div className="w-full">
-            <div ref={googleButtonRef} className="w-full"></div>
-          </div>
-            </>
-          )}
-
-          {/* Sign Up Link */}
-          <p className="text-center text-sm text-slate-600">
-            Don't have an account?{" "}
-            <motion.a
-              onClick={() => navigate("/signup")}
-              whileHover={{ scale: 1.05 }}
-              className="font-semibold text-slate-900 hover:text-slate-700 transition-colors cursor-pointer inline-block"
-            >
-              Sign up
-            </motion.a>
-          </p>
         </motion.div>
-      </motion.div>
+      </div>
     </div>
   );
 };

@@ -2,16 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import {
   GitBranch,
-  Zap,
   BarChart2,
   Database,
   Sliders,
   FlaskConical,
-  Share2,
   Eye,
   Layers,
-  History,
-  Download,
   BookOpen,
 } from "lucide-react";
 
@@ -20,11 +16,6 @@ const FEATURES = [
     icon: GitBranch,
     title: "Visual Pipeline Builder",
     desc: "Connect nodes to build ML workflows. No boilerplate, just the logic.",
-  },
-  {
-    icon: Zap,
-    title: "Real-time Execution",
-    desc: "Run your pipeline and watch results appear as each node completes.",
   },
   {
     icon: Layers,
@@ -55,21 +46,6 @@ const FEATURES = [
     icon: FlaskConical,
     title: "Model Comparison",
     desc: "Run multiple models side-by-side and compare their output metrics.",
-  },
-  {
-    icon: History,
-    title: "Experiment History",
-    desc: "Every run is saved. Go back to any experiment and re-run it.",
-  },
-  {
-    icon: Download,
-    title: "Export Projects",
-    desc: "Download your pipeline as Python code or a serialized model file.",
-  },
-  {
-    icon: Share2,
-    title: "Share Pipelines",
-    desc: "Generate a link so anyone can view and run your pipeline in the browser.",
   },
   {
     icon: BookOpen,

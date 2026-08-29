@@ -4,6 +4,10 @@ import { ChevronDown } from "lucide-react";
 
 const FAQS = [
   {
+    q: "What is the goal of Flow ML?",
+    a: "Flow ML helps students explore and implement machine learning algorithms without writing code. By connecting visual nodes, you can build a complete workflow, understand each step, and learn from the results.",
+  },
+  {
     q: "Do I need to know Python to use Flow ML?",
     a: "No. Flow ML is designed for visual learning. You build pipelines by connecting nodes — no code required. Once you understand the concepts, you can optionally export your pipeline as Python code.",
   },
@@ -33,24 +37,27 @@ const FAQ: React.FC = () => {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="faq" className="py-32 bg-neutral-950">
-      <div className="max-w-3xl mx-auto px-6 lg:px-8">
+    <section id="faq" className="border-y border-slate-200 bg-white py-28">
+      <div className="mx-auto max-w-3xl px-6 lg:px-8">
         <motion.div
-          className="mb-16"
+          className="mx-auto mb-12 max-w-xl text-center"
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
         >
-          <p className="text-[11px] font-medium tracking-widest uppercase text-neutral-600 mb-4">
+          <p className="mb-4 text-[11px] font-semibold uppercase tracking-widest text-amber-700">
             FAQ
           </p>
-          <h2 className="text-3xl lg:text-4xl font-bold text-neutral-100 tracking-tight leading-tight">
+          <h2 className="text-3xl font-bold leading-tight tracking-tight text-slate-900 lg:text-4xl">
             Common questions.
           </h2>
+          <p className="mt-4 text-sm leading-relaxed text-slate-600">
+            Everything you need to know before starting your first workflow.
+          </p>
         </motion.div>
 
-        <div className="space-y-px">
+        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
           {FAQS.map((faq, i) => (
             <motion.div
               key={i}
@@ -58,24 +65,24 @@ const FAQ: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: i * 0.05 }}
-              className="border-b border-white/[0.06]"
+              className="border-b border-slate-100 last:border-b-0"
             >
               <button
-                className="w-full flex items-center justify-between py-5 text-left group"
+                className={`group flex w-full items-center justify-between px-5 py-5 text-left transition-colors sm:px-6 ${open === i ? "bg-slate-50" : "hover:bg-slate-50"}`}
                 onClick={() => setOpen(open === i ? null : i)}
                 aria-expanded={open === i}
               >
                 <span
-                  className={`text-sm font-medium transition-colors ${open === i ? "text-neutral-100" : "text-neutral-400 group-hover:text-neutral-200"}`}
+                  className={`text-sm font-semibold transition-colors ${open === i ? "text-slate-900" : "text-slate-800"}`}
                 >
                   {faq.q}
                 </span>
                 <motion.div
                   animate={{ rotate: open === i ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
-                  className="flex-shrink-0 ml-4"
+                  className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors ${open === i ? "bg-slate-800 text-white" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200 group-hover:text-slate-700"}`}
                 >
-                  <ChevronDown className="w-4 h-4 text-neutral-600" />
+                  <ChevronDown className="h-4 w-4" />
                 </motion.div>
               </button>
 
@@ -88,7 +95,7 @@ const FAQ: React.FC = () => {
                     transition={{ duration: 0.25, ease: "easeOut" }}
                     className="overflow-hidden"
                   >
-                    <p className="pb-5 text-[14px] text-neutral-500 leading-relaxed">
+                    <p className="bg-slate-50 px-5 pb-5 text-sm leading-relaxed text-slate-600 sm:px-6">
                       {faq.a}
                     </p>
                   </motion.div>
