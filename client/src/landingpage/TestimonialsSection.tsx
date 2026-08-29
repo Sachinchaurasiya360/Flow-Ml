@@ -7,7 +7,7 @@ import {
 
 const TESTIMONIALS: Testimonial[] = [
   {
-    text: "Flow ML made machine learning click for me. I built and understood linear regression in one afternoon by watching the loss drop in real time.",
+    text: "Visual ML made machine learning click for me. I built and understood linear regression in one afternoon by watching the loss drop in real time.",
     image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=120&q=80",
     name: "Aarav Sharma",
     role: "Class 11 student, Delhi",
@@ -25,7 +25,7 @@ const TESTIMONIALS: Testimonial[] = [
     role: "Class 9 student, Ahmedabad",
   },
   {
-    text: "Our school coding club uses Flow ML to test ideas together. Everyone can follow the same workflow on the screen.",
+    text: "Our school coding club uses Visual ML to test ideas together. Everyone can follow the same workflow on the screen.",
     image: "https://images.unsplash.com/photo-1503919545889-aef636e10ad4?auto=format&fit=crop&w=120&q=80",
     name: "Diya Kapoor",
     role: "Class 8 student, Jaipur",

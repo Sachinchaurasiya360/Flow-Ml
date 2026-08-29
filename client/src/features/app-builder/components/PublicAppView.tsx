@@ -222,7 +222,7 @@ export default function PublicAppView({ app, slug }: PublicAppViewProps) {
             <p className={`text-xs ${theme.darkMode ? "text-gray-500" : "text-gray-400"}`}>
               Built by <span className="font-medium text-gray-600">{app.owner_name}</span>
               {" "}&middot;{" "}
-              <span style={{ color: theme.primaryColor }}>Powered by Flow ML</span>
+              <span style={{ color: theme.primaryColor }}>Powered by Visual ML</span>
             </p>
           </div>
         </motion.footer>

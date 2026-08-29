@@ -4,28 +4,28 @@ import { ChevronDown } from "lucide-react";
 
 const FAQS = [
   {
-    q: "What is the goal of Flow ML?",
-    a: "Flow ML helps students explore and implement machine learning algorithms without writing code. By connecting visual nodes, you can build a complete workflow, understand each step, and learn from the results.",
+    q: "What is the goal of Visual ML?",
+    a: "Visual ML helps students explore and implement machine learning algorithms without writing code. By connecting visual nodes, you can build a complete workflow, understand each step, and learn from the results.",
   },
   {
-    q: "Do I need to know Python to use Flow ML?",
-    a: "No. Flow ML is designed for visual learning. You build pipelines by connecting nodes — no code required. Once you understand the concepts, you can optionally export your pipeline as Python code.",
+    q: "Do I need to know Python to use Visual ML?",
+    a: "No. Visual ML is designed for visual learning. You build pipelines by connecting nodes — no code required. Once you understand the concepts, you can optionally export your pipeline as Python code.",
   },
   {
     q: "What machine learning algorithms are supported?",
-    a: "Flow ML supports 18+ algorithms including Linear Regression, Logistic Regression, Decision Trees, Random Forest, KNN, SVM, K-Means, Naive Bayes, PCA, Neural Networks, CNN, and RNN — with more added regularly.",
+    a: "Visual ML supports 18+ algorithms including Linear Regression, Logistic Regression, Decision Trees, Random Forest, KNN, SVM, K-Means, Naive Bayes, PCA, Neural Networks, CNN, and RNN — with more added regularly.",
   },
   {
     q: "Is it suitable for university coursework?",
-    a: "Yes. Many professors use Flow ML in their ML and data science courses. It's particularly effective for making abstract concepts like gradient descent, decision boundaries, and neural network layers visible and understandable.",
+    a: "Yes. Many professors use Visual ML in their ML and data science courses. It's particularly effective for making abstract concepts like gradient descent, decision boundaries, and neural network layers visible and understandable.",
   },
   {
     q: "Can I use my own datasets?",
     a: "Yes. You can upload CSV files directly, and the Dataset node will automatically infer column types, show distributions, and flag potential issues like missing values.",
   },
   {
-    q: "Is Flow ML free?",
-    a: "Flow ML is free to get started. You can build, run, and share pipelines without paying anything. Advanced features and higher compute limits are available on paid plans.",
+    q: "Is Visual ML free?",
+    a: "Visual ML is free to get started. You can build, run, and share pipelines without paying anything. Advanced features and higher compute limits are available on paid plans.",
   },
   {
     q: "Can I share my pipelines with others?",
@@ -57,7 +57,7 @@ const FAQ: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+        <div>
           {FAQS.map((faq, i) => (
             <motion.div
               key={i}

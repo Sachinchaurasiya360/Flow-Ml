@@ -1,4 +1,4 @@
-# Flow ML
+# Visual ML
 
 - We’re building a drag-and-drop ML learning playground where students can visually create end-to-end machine learning workflows:
 - **Upload Dataset → Clean Data → Split → Train Model → Evaluate → Share Results → Build Custom UI → Connect Hardware**

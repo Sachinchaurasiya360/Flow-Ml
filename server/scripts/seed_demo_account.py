@@ -57,7 +57,7 @@ def seed_demo_account() -> None:
                 ),
                 {
                     "email": DEMO_EMAIL,
-                    "full_name": "Flow ML Demo",
+                    "full_name": "Visual ML Demo",
                     "password": password_context.hash(DEMO_PASSWORD),
                     "now": now,
                 },

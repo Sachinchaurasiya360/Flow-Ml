@@ -1,5 +1,5 @@
 """
-Core configuration settings for the Flow ML application.
+Core configuration settings for the Visual ML application.
 Handles environment variables, database settings, and ML-specific configurations.
 """
 
@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
 
     # Application
-    APP_NAME: str = "Flow ML"
+    APP_NAME: str = "Visual ML"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
     ENVIRONMENT: str = "development"  # development, staging, production
@@ -121,7 +121,7 @@ class Settings(BaseSettings):
     # Brevo Email Service
     BREVO_API_KEY: Optional[str] = ""
     BREVO_SENDER_EMAIL: str = ""
-    BREVO_SENDER_NAME: str = "Flow ML"
+    BREVO_SENDER_NAME: str = "Visual ML"
 
     # Redis URL for Celery
     REDIS_URL: str = "redis://localhost:6379/0"

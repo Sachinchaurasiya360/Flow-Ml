@@ -4,7 +4,14 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Sparkles, Layers, Play, ArrowRight } from "lucide-react";
+import {
+  ChevronDown,
+  Sparkles,
+  Layers,
+  Play,
+  ArrowRight,
+  GripVertical,
+} from "lucide-react";
 import { getAllNodes } from "../../config/nodeDefinitions";
 import { PIPELINE_TEMPLATES } from "../../config/pipelineTemplates";
 import type { PipelineTemplate } from "../../config/pipelineTemplates";
@@ -176,28 +183,42 @@ const NodePalette = () => {
                               duration: 0.2,
                               delay: index * 0.05,
                             }}
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.98 }}
                             className="group"
                           >
                             <div
                               draggable
                               onDragStart={(e) => onDragStart(e, node.type)}
-                              className="relative p-3 bg-white/70 backdrop-blur-sm rounded-lg border border-slate-200/60 cursor-move hover:bg-white hover:border-slate-300 hover:shadow-lg transition-all overflow-hidden"
+                              className="relative p-3 bg-white rounded-xl border cursor-grab active:cursor-grabbing transition-all overflow-hidden shadow-[0_1px_2px_rgba(15,23,42,0.04)] hover:shadow-[0_8px_20px_-6px_var(--node-glow)]"
+                              style={
+                                {
+                                  "--node-glow": `${node.color}45`,
+                                  borderColor: `${node.color}30`,
+                                } as React.CSSProperties
+                              }
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.borderColor = `${node.color}70`;
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.borderColor = `${node.color}30`;
+                              }}
                             >
-                              {/* Accent bar */}
+                              {/* Subtle tinted wash on hover */}
                               <div
-                                className="absolute left-0 top-0 bottom-0 w-1 group-hover:w-1.5 transition-all"
-                                style={{ backgroundColor: node.color }}
+                                className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+                                style={{
+                                  background: `linear-gradient(135deg, ${node.color}0c, transparent 60%)`,
+                                }}
                               />
-
-                              {/* Gradient overlay on hover */}
-                              <div className="absolute inset-0 bg-linear-to-br from-slate-50/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
                               <div className="relative flex items-start gap-3">
                                 {/* Icon */}
                                 <div
-                                  className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 shadow-sm group-hover:shadow-md transition-shadow"
+                                  className="relative w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ring-1 transition-transform duration-200 group-hover:scale-105"
                                   style={{
-                                    backgroundColor: `${node.color}15`,
+                                    backgroundColor: `${node.color}18`,
+                                    boxShadow: `inset 0 0 0 1px ${node.color}25`,
                                   }}
                                 >
                                   {typeof node.icon === "string" ? (
@@ -214,13 +235,22 @@ const NodePalette = () => {
 
                                 {/* Content */}
                                 <div className="flex-1 min-w-0">
-                                  <div className="text-sm font-semibold text-slate-800 group-hover:text-slate-900 transition-colors">
-                                    {node.label}
+                                  <div className="flex items-center gap-1.5">
+                                    <span className="text-sm font-semibold text-slate-800 group-hover:text-slate-900 transition-colors truncate">
+                                      {node.label}
+                                    </span>
+                                    <span
+                                      className="w-1.5 h-1.5 rounded-full shrink-0"
+                                      style={{ backgroundColor: node.color }}
+                                    />
                                   </div>
-                                  <div className="text-xs text-slate-600 mt-0.5 line-clamp-2 leading-relaxed">
+                                  <div className="text-xs text-slate-500 mt-0.5 line-clamp-2 leading-relaxed">
                                     {node.description}
                                   </div>
                                 </div>
+
+                                {/* Drag handle */}
+                                <GripVertical className="w-4 h-4 text-slate-300 shrink-0 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" />
                               </div>
                             </div>
                           </motion.div>

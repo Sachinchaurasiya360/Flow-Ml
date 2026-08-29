@@ -154,7 +154,7 @@ const FlowPreview: React.FC = () => {
         <span className="h-2.5 w-2.5 rounded-full bg-rose-400" />
         <span className="h-2.5 w-2.5 rounded-full bg-amber-400" />
         <span className="h-2.5 w-2.5 rounded-full bg-emerald-400" />
-        <span className="ml-2 text-[11px] font-semibold text-slate-500">Flow ML workspace</span>
+        <span className="ml-2 text-[11px] font-semibold text-slate-500">Visual ML workspace</span>
         <span className="ml-auto hidden text-[10px] font-medium text-slate-500 sm:block">v1.4 · churn-prediction</span>
         <button
           type="button"
@@ -257,7 +257,7 @@ const Hero: React.FC = () => {
           transition={{ duration: 0.5, delay: 0.35 }}
           className="mx-auto mt-5 max-w-2xl text-xs leading-relaxed text-slate-500"
         >
-          Flow ML is currently in ideation mode and available as a beta for testing and feedback. A more complete, industry-ready version is launching soon.
+          Visual ML is currently in ideation mode and available as a beta for testing and feedback. A more complete, industry-ready version is launching soon.
         </motion.p>
 
         <motion.div

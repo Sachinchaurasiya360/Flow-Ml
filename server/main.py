@@ -1,5 +1,5 @@
 """
-FastAPI application entry point for Flow ML.
+FastAPI application entry point for Visual ML.
 """
 
 from fastapi import FastAPI, Request, status

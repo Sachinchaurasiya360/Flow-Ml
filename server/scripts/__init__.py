@@ -1,1 +1,1 @@
-"""Operational scripts for the Flow ML server."""
+"""Operational scripts for the Visual ML server."""

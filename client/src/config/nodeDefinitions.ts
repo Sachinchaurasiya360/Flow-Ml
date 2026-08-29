@@ -95,7 +95,7 @@ export const nodeCategories: NodeCategory[] = [
         description: "Choose from previously uploaded datasets",
         category: "data-sources",
         icon: Database,
-        color: "#10B981",
+        color: "#3bab86",
         defaultConfig: {
           dataset_id: "",
           filename: "",

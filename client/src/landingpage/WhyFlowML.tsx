@@ -41,7 +41,7 @@ const WhyFlowML: React.FC = () => {
           transition={{ duration: 0.5 }}
         >
           <p className="text-[11px] font-medium tracking-widest uppercase text-neutral-600 mb-4">
-            Why Flow ML
+            Why Visual ML
           </p>
           <h2 className="text-3xl lg:text-4xl font-bold text-neutral-100 tracking-tight leading-tight">
             Learning ML shouldn't start with
@@ -83,7 +83,7 @@ const WhyFlowML: React.FC = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="bg-neutral-900 border border-white/[0.08] rounded-xl p-8"
           >
-            <SectionLabel>With Flow ML</SectionLabel>
+            <SectionLabel>With Visual ML</SectionLabel>
             <ul className="space-y-3.5">
               {AFTER.map((item) => (
                 <li key={item} className="flex items-start gap-3">

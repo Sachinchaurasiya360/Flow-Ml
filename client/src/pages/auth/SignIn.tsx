@@ -1,15 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  ArrowRight,
-  Check,
-  Database,
-  SlidersHorizontal,
-  BrainCircuit,
-} from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import axiosInstance from "../../lib/axios";
 import { useNavigate } from "react-router";
@@ -132,77 +122,15 @@ const SignIn: React.FC = () => {
     <div className="min-h-screen bg-[#F4F6FF]">
       <Navbar variant="auth-signin" />
 
-      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center gap-12 px-6 pt-28 pb-16 lg:flex-row lg:items-center lg:gap-16 lg:px-8">
-        {/* Showcase panel */}
-        <motion.div
-          initial={{ opacity: 0, x: -16 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          className="hidden w-full max-w-md flex-col justify-center rounded-3xl border border-[#FDE68A] bg-white p-10 shadow-sm lg:flex lg:w-1/2"
-        >
-          <p className="text-[11px] font-semibold uppercase tracking-widest text-amber-700">
-            Flow ML
-          </p>
-          <h1 className="mt-4 text-3xl font-bold leading-tight tracking-tight text-slate-900">
-            Build ML pipelines,
-            <br />
-            without writing code.
-          </h1>
-          <p className="mt-4 text-sm leading-relaxed text-slate-600">
-            Sign in to pick up your workflows, run experiments, and keep
-            learning where you left off.
-          </p>
-
-          <div className="mt-10 flex items-center gap-3">
-            {[
-              { icon: Database, label: "Data" },
-              { icon: SlidersHorizontal, label: "Prepare" },
-              { icon: BrainCircuit, label: "Train" },
-            ].map((step, i, arr) => {
-              const Icon = step.icon;
-              return (
-                <React.Fragment key={step.label}>
-                  <div className="flex flex-col items-center gap-2 rounded-xl border border-slate-200 bg-[#F8FAFC] px-4 py-3">
-                    <Icon className="h-4 w-4 text-amber-700" />
-                    <span className="text-[10px] font-semibold text-slate-600">
-                      {step.label}
-                    </span>
-                  </div>
-                  {i < arr.length - 1 && (
-                    <div className="h-px w-6 flex-1 bg-slate-300" />
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </div>
-
-          <ul className="mt-10 space-y-3">
-            {[
-              "Drag-and-drop dataset, model, and evaluation nodes",
-              "Watch every run animate step by step",
-              "Export finished pipelines as Python code",
-            ].map((point) => (
-              <li
-                key={point}
-                className="flex items-start gap-3 text-sm text-slate-600"
-              >
-                <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-700">
-                  <Check className="h-3 w-3" />
-                </span>
-                {point}
-              </li>
-            ))}
-          </ul>
-        </motion.div>
-
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col items-center justify-center gap-12 px-6 pt-28 pb-16 lg:px-8">
         {/* Form panel */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="w-full max-w-md lg:w-1/2"
+          className="w-full max-w-md"
         >
-          <div className="text-center lg:text-left">
+          <div className="text-center">
             <h2 className="text-3xl font-bold tracking-tight text-slate-900">
               Welcome back
             </h2>
@@ -227,7 +155,7 @@ const SignIn: React.FC = () => {
 
             <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-4">
               <p className="text-sm leading-6 text-indigo-950">
-                Flow ML is currently in ideation mode and available as a beta
+                Visual ML is currently in ideation mode and available as a beta
                 for testing and feedback. A more complete, industry-ready
                 version is launching soon.
               </p>

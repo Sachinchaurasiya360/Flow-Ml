@@ -60,7 +60,7 @@ const Navbar: React.FC<NavbarProps> = ({ variant = "landing" }) => {
             </svg>
           </div>
           <span className="text-[13px] font-semibold tracking-tight text-slate-900">
-            Flow ML
+            Visual ML
           </span>
           {variant === "landing" && (
             <span className="border-l border-slate-300 pl-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-amber-700">
