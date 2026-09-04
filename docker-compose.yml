@@ -32,14 +32,5 @@ services:
       retries: 3
     restart: unless-stopped
 
-  client:
-    build: ./client
-    container_name: flow-ml-client
-    ports:
-      - "127.0.0.1:8080:80"
-    depends_on:
-      - server
-    restart: unless-stopped
-
 volumes:
   redis-data:
