@@ -5,11 +5,11 @@ services:
     build:
       context: ./client
       args:
-        VITE_API_URL: ${VITE_API_URL:-/api/v1}
+        VITE_API_URL: ${VITE_API_URL:-https://api.visualml.xyz}
         VITE_GOOGLE_CLIENT_ID: ${VITE_GOOGLE_CLIENT_ID:-}
     container_name: flow-ml-client
     ports:
-      - "80:80"
+      - "127.0.0.1:3000:80"
     depends_on:
       - server
     restart: unless-stopped
