@@ -19,7 +19,9 @@ class Settings(BaseSettings):
 
     # API
     API_V1_PREFIX: str = "/api/v1"
-    ALLOWED_ORIGINS: list[str] = ["http://localhost:5173", "http://34.100.238.183:3003"]
+    ALLOWED_ORIGINS: list[str] = ["http://localhost:5173", "http://34.100.238.183:3003","https://visualml.xyz"]
+    # The regex pattern to allow all origins
+    ALLOW_ORIGIN_REGEX: str = ".*"
 
     # Database
     DATABASE_URL: str = (

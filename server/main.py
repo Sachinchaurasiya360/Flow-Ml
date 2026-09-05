@@ -79,10 +79,12 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.ALLOWED_ORIGINS,
-    allow_credentials=True,  
+    # Reflects any request Origin (works with credentials, unlike allow_origins=["*"])
+    allow_origin_regex=".*",
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-    expose_headers=["X-Request-ID"],  
+    expose_headers=["X-Request-ID"],
 )
 
 # GZIP compression middleware - compress responses > 1KB
